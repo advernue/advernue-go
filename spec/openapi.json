@@ -18,6 +18,32 @@
    }
   },
   "schemas": {
+   "Error": {
+    "type": "object",
+    "properties": {
+     "error": {
+      "type": "object",
+      "properties": {
+       "code": {
+        "type": "string"
+       },
+       "message": {
+        "type": "string"
+       },
+       "details": {}
+      },
+      "required": [
+       "code",
+       "message"
+      ],
+      "additionalProperties": false
+     }
+    },
+    "required": [
+     "error"
+    ],
+    "additionalProperties": false
+   },
    "Money": {
     "type": "object",
     "properties": {
@@ -86,7 +112,7 @@
       "type": "string"
      },
      "actor": {
-      "$ref": "#/$defs/Actor"
+      "$ref": "#/components/schemas/Actor"
      },
      "target": {
       "type": "object",
@@ -103,7 +129,7 @@
       "additionalProperties": {}
      },
      "status": {
-      "$ref": "#/$defs/ActionStatus"
+      "$ref": "#/components/schemas/ActionStatus"
      },
      "decision": {
       "anyOf": [
@@ -1361,7 +1387,7 @@
       ]
      },
      "amount": {
-      "$ref": "#/$defs/Money"
+      "$ref": "#/components/schemas/Money"
      }
     },
     "required": [
@@ -1384,7 +1410,7 @@
       ]
      },
      "amount": {
-      "$ref": "#/$defs/Money"
+      "$ref": "#/components/schemas/Money"
      },
      "targetRoas": {
       "type": "number"
@@ -1413,12 +1439,12 @@
       "type": "string"
      },
      "status": {
-      "$ref": "#/$defs/EntityStatus"
+      "$ref": "#/components/schemas/EntityStatus"
      },
      "budget": {
       "anyOf": [
        {
-        "$ref": "#/$defs/Budget"
+        "$ref": "#/components/schemas/Budget"
        },
        {
         "type": "null"
@@ -1426,12 +1452,12 @@
       ]
      },
      "targeting": {
-      "$ref": "#/$defs/Targeting"
+      "$ref": "#/components/schemas/Targeting"
      },
      "bid": {
       "anyOf": [
        {
-        "$ref": "#/$defs/Bid"
+        "$ref": "#/components/schemas/Bid"
        },
        {
         "type": "null"
@@ -1570,7 +1596,7 @@
       "type": "string"
      },
      "status": {
-      "$ref": "#/$defs/EntityStatus"
+      "$ref": "#/components/schemas/EntityStatus"
      },
      "creativeId": {
       "type": [
@@ -1621,7 +1647,7 @@
       "type": "string"
      },
      "platform": {
-      "$ref": "#/$defs/Platform"
+      "$ref": "#/components/schemas/Platform"
      },
      "label": {
       "type": "string"
@@ -1802,7 +1828,7 @@
       "type": "string"
      },
      "platform": {
-      "$ref": "#/$defs/Platform"
+      "$ref": "#/components/schemas/Platform"
      },
      "externalId": {
       "type": "string"
@@ -1992,12 +2018,12 @@
       "type": "string"
      },
      "spend": {
-      "$ref": "#/$defs/Money"
+      "$ref": "#/components/schemas/Money"
      },
      "previousSpend": {
       "anyOf": [
        {
-        "$ref": "#/$defs/Money"
+        "$ref": "#/components/schemas/Money"
        },
        {
         "type": "null"
@@ -2037,7 +2063,7 @@
          "type": "string"
         },
         "spend": {
-         "$ref": "#/$defs/Money"
+         "$ref": "#/components/schemas/Money"
         },
         "deltaPct": {
          "type": [
@@ -2826,7 +2852,7 @@
       ]
      },
      "totalBudget": {
-      "$ref": "#/$defs/Budget"
+      "$ref": "#/components/schemas/Budget"
      },
      "split": {
       "oneOf": [
@@ -3608,7 +3634,7 @@
          "additionalProperties": {}
         },
         "bid": {
-         "$ref": "#/$defs/Bid"
+         "$ref": "#/components/schemas/Bid"
         }
        }
       }
@@ -3629,12 +3655,12 @@
     "type": "object",
     "properties": {
      "parent": {
-      "$ref": "#/$defs/Action"
+      "$ref": "#/components/schemas/Action"
      },
      "children": {
       "type": "array",
       "items": {
-       "$ref": "#/$defs/Action"
+       "$ref": "#/components/schemas/Action"
       }
      },
      "plan": {
@@ -3652,7 +3678,7 @@
            "type": "string"
           },
           "platform": {
-           "$ref": "#/$defs/Platform"
+           "$ref": "#/components/schemas/Platform"
           },
           "campaign": {
            "type": "object",
@@ -3709,7 +3735,7 @@
             "type": "object",
             "properties": {
              "platform": {
-              "$ref": "#/$defs/Platform"
+              "$ref": "#/components/schemas/Platform"
              },
              "code": {
               "type": "string"
@@ -3806,7 +3832,7 @@
     "type": "object",
     "properties": {
      "spend": {
-      "$ref": "#/$defs/Money"
+      "$ref": "#/components/schemas/Money"
      },
      "impressions": {
       "type": "number"
@@ -3818,7 +3844,7 @@
       "type": "number"
      },
      "conversionValue": {
-      "$ref": "#/$defs/Money"
+      "$ref": "#/components/schemas/Money"
      },
      "ctr": {
       "type": [
@@ -3829,7 +3855,7 @@
      "cpc": {
       "anyOf": [
        {
-        "$ref": "#/$defs/Money"
+        "$ref": "#/components/schemas/Money"
        },
        {
         "type": "null"
@@ -3839,7 +3865,7 @@
      "cpm": {
       "anyOf": [
        {
-        "$ref": "#/$defs/Money"
+        "$ref": "#/components/schemas/Money"
        },
        {
         "type": "null"
@@ -3849,7 +3875,7 @@
      "cpa": {
       "anyOf": [
        {
-        "$ref": "#/$defs/Money"
+        "$ref": "#/components/schemas/Money"
        },
        {
         "type": "null"
@@ -26459,21 +26485,11 @@
   "/v1/analytics/compare": {
    "post": {
     "operationId": "analytics.compare",
+    "x-read-only": true,
     "tags": [
      "analytics"
     ],
     "summary": "Compare metrics grouped by platform, account, campaign, cross-campaign or date",
-    "parameters": [
-     {
-      "name": "Idempotency-Key",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "type": "string",
-       "maxLength": 255
-      }
-     }
-    ],
     "requestBody": {
      "required": true,
      "content": {
@@ -26845,322 +26861,6 @@
        }
       }
      },
-     "201": {
-      "description": "Created",
-      "content": {
-       "application/json": {
-        "schema": {
-         "type": "object",
-         "properties": {
-          "groups": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "key": {
-              "type": "string"
-             },
-             "metrics": {
-              "$ref": "#/components/schemas/DerivedMetrics"
-             },
-             "previous": {
-              "$ref": "#/components/schemas/DerivedMetrics"
-             },
-             "delta": {
-              "type": "object",
-              "propertyNames": {
-               "type": "string"
-              },
-              "additionalProperties": {
-               "type": [
-                "number",
-                "null"
-               ]
-              }
-             },
-             "firstParty": {
-              "description": "with firstParty: true",
-              "type": "object",
-              "properties": {
-               "revenue": {
-                "$ref": "#/components/schemas/Money"
-               },
-               "gross": {
-                "$ref": "#/components/schemas/Money"
-               },
-               "refunds": {
-                "$ref": "#/components/schemas/Money"
-               },
-               "orders": {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-               },
-               "roas": {
-                "type": [
-                 "number",
-                 "null"
-                ]
-               },
-               "browserReported": {
-                "$ref": "#/components/schemas/Money"
-               }
-              },
-              "required": [
-               "revenue",
-               "gross",
-               "refunds",
-               "orders",
-               "roas",
-               "browserReported"
-              ],
-              "additionalProperties": false
-             }
-            },
-            "required": [
-             "key",
-             "metrics"
-            ],
-            "additionalProperties": false
-           }
-          },
-          "totals": {
-           "type": "object",
-           "properties": {
-            "spend": {
-             "$ref": "#/components/schemas/Money"
-            },
-            "impressions": {
-             "type": "number"
-            },
-            "clicks": {
-             "type": "number"
-            },
-            "conversions": {
-             "type": "number"
-            },
-            "conversionValue": {
-             "$ref": "#/components/schemas/Money"
-            },
-            "ctr": {
-             "type": [
-              "number",
-              "null"
-             ]
-            },
-            "cpc": {
-             "anyOf": [
-              {
-               "$ref": "#/components/schemas/Money"
-              },
-              {
-               "type": "null"
-              }
-             ]
-            },
-            "cpm": {
-             "anyOf": [
-              {
-               "$ref": "#/components/schemas/Money"
-              },
-              {
-               "type": "null"
-              }
-             ]
-            },
-            "cpa": {
-             "anyOf": [
-              {
-               "$ref": "#/components/schemas/Money"
-              },
-              {
-               "type": "null"
-              }
-             ]
-            },
-            "roas": {
-             "type": [
-              "number",
-              "null"
-             ]
-            },
-            "firstParty": {
-             "type": "object",
-             "properties": {
-              "revenue": {
-               "$ref": "#/components/schemas/Money"
-              },
-              "gross": {
-               "$ref": "#/components/schemas/Money"
-              },
-              "refunds": {
-               "$ref": "#/components/schemas/Money"
-              },
-              "orders": {
-               "type": "integer",
-               "minimum": -9007199254740991,
-               "maximum": 9007199254740991
-              },
-              "roas": {
-               "type": [
-                "number",
-                "null"
-               ]
-              },
-              "browserReported": {
-               "$ref": "#/components/schemas/Money"
-              }
-             },
-             "required": [
-              "revenue",
-              "gross",
-              "refunds",
-              "orders",
-              "roas",
-              "browserReported"
-             ],
-             "additionalProperties": false
-            },
-            "unattributed": {
-             "type": "object",
-             "properties": {
-              "revenue": {
-               "$ref": "#/components/schemas/Money"
-              },
-              "orders": {
-               "type": "integer",
-               "minimum": -9007199254740991,
-               "maximum": 9007199254740991
-              }
-             },
-             "required": [
-              "revenue",
-              "orders"
-             ],
-             "additionalProperties": false
-            },
-            "browserReported": {
-             "type": "object",
-             "properties": {
-              "revenue": {
-               "$ref": "#/components/schemas/Money"
-              },
-              "orders": {
-               "type": "integer",
-               "minimum": -9007199254740991,
-               "maximum": 9007199254740991
-              }
-             },
-             "required": [
-              "revenue",
-              "orders"
-             ],
-             "additionalProperties": false
-            },
-            "blended": {
-             "type": "object",
-             "properties": {
-              "revenue": {
-               "$ref": "#/components/schemas/Money"
-              },
-              "roas": {
-               "type": [
-                "number",
-                "null"
-               ]
-              }
-             },
-             "required": [
-              "revenue",
-              "roas"
-             ],
-             "additionalProperties": false
-            }
-           },
-           "required": [
-            "spend",
-            "impressions",
-            "clicks",
-            "conversions",
-            "conversionValue",
-            "ctr",
-            "cpc",
-            "cpm",
-            "cpa",
-            "roas"
-           ],
-           "additionalProperties": false
-          },
-          "missingFx": {
-           "type": "object",
-           "properties": {
-            "current": {
-             "type": "array",
-             "items": {
-              "type": "object",
-              "properties": {
-               "date": {
-                "type": "string",
-                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
-               },
-               "from": {
-                "type": "string"
-               }
-              },
-              "required": [
-               "date",
-               "from"
-              ],
-              "additionalProperties": false
-             }
-            },
-            "previous": {
-             "type": "array",
-             "items": {
-              "type": "object",
-              "properties": {
-               "date": {
-                "type": "string",
-                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
-               },
-               "from": {
-                "type": "string"
-               }
-              },
-              "required": [
-               "date",
-               "from"
-              ],
-              "additionalProperties": false
-             }
-            }
-           },
-           "required": [
-            "current",
-            "previous"
-           ],
-           "additionalProperties": false
-          },
-          "attributionMethods": {
-           "type": "object",
-           "propertyNames": {
-            "type": "string"
-           },
-           "additionalProperties": {
-            "type": "number"
-           }
-          }
-         },
-         "required": [
-          "groups",
-          "totals",
-          "missingFx"
-         ],
-         "additionalProperties": false
-        }
-       }
-      }
-     },
      "default": {
       "description": "Error",
       "content": {
@@ -27185,21 +26885,11 @@
   "/v1/analytics/timeseries": {
    "post": {
     "operationId": "analytics.timeseries",
+    "x-read-only": true,
     "tags": [
      "analytics"
     ],
     "summary": "Daily metrics for entities over a date range, in the reporting currency",
-    "parameters": [
-     {
-      "name": "Idempotency-Key",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "type": "string",
-       "maxLength": 255
-      }
-     }
-    ],
     "requestBody": {
      "required": true,
      "content": {
@@ -27367,120 +27057,6 @@
        }
       }
      },
-     "201": {
-      "description": "Created",
-      "content": {
-       "application/json": {
-        "schema": {
-         "type": "object",
-         "properties": {
-          "series": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "date": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
-             },
-             "metrics": {
-              "$ref": "#/components/schemas/DerivedMetrics"
-             },
-             "firstParty": {
-              "description": "with firstParty: true",
-              "type": "object",
-              "properties": {
-               "revenue": {
-                "$ref": "#/components/schemas/Money"
-               },
-               "gross": {
-                "$ref": "#/components/schemas/Money"
-               },
-               "refunds": {
-                "$ref": "#/components/schemas/Money"
-               },
-               "orders": {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-               },
-               "roas": {
-                "type": [
-                 "number",
-                 "null"
-                ]
-               },
-               "browserReported": {
-                "$ref": "#/components/schemas/Money"
-               }
-              },
-              "required": [
-               "revenue",
-               "gross",
-               "refunds",
-               "orders",
-               "roas",
-               "browserReported"
-              ],
-              "additionalProperties": false
-             },
-             "blended": {
-              "type": "object",
-              "properties": {
-               "revenue": {
-                "$ref": "#/components/schemas/Money"
-               },
-               "roas": {
-                "type": [
-                 "number",
-                 "null"
-                ]
-               }
-              },
-              "required": [
-               "revenue",
-               "roas"
-              ],
-              "additionalProperties": false
-             }
-            },
-            "required": [
-             "date",
-             "metrics"
-            ],
-            "additionalProperties": false
-           }
-          },
-          "missingFx": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "date": {
-              "type": "string",
-              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
-             },
-             "from": {
-              "type": "string"
-             }
-            },
-            "required": [
-             "date",
-             "from"
-            ],
-            "additionalProperties": false
-           }
-          }
-         },
-         "required": [
-          "series",
-          "missingFx"
-         ],
-         "additionalProperties": false
-        }
-       }
-      }
-     },
      "default": {
       "description": "Error",
       "content": {
@@ -27505,21 +27081,11 @@
   "/v1/analytics/breakdown": {
    "post": {
     "operationId": "analytics.breakdown",
+    "x-read-only": true,
     "tags": [
      "analytics"
     ],
     "summary": "Metrics split by a dimension (country, device, placement, age, gender, hour), across platforms",
-    "parameters": [
-     {
-      "name": "Idempotency-Key",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "type": "string",
-       "maxLength": 255
-      }
-     }
-    ],
     "requestBody": {
      "required": true,
      "content": {
@@ -28818,743 +28384,6 @@
        }
       }
      },
-     "201": {
-      "description": "Created",
-      "content": {
-       "application/json": {
-        "schema": {
-         "type": "object",
-         "properties": {
-          "dimension": {
-           "type": "string",
-           "enum": [
-            "geo_country",
-            "device",
-            "placement",
-            "creative",
-            "ad",
-            "age",
-            "gender",
-            "hour"
-           ]
-          },
-          "currency": {
-           "type": "string"
-          },
-          "groups": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "value": {
-              "type": "string"
-             },
-             "platform": {
-              "anyOf": [
-               {
-                "type": "string",
-                "enum": [
-                 "google_ads",
-                 "meta",
-                 "tiktok",
-                 "microsoft",
-                 "linkedin",
-                 "reddit",
-                 "pinterest",
-                 "snapchat",
-                 "x",
-                 "amazon",
-                 "apple",
-                 "taboola",
-                 "outbrain",
-                 "criteo",
-                 "propellerads",
-                 "adsterra",
-                 "exoclick",
-                 "trafficfactory",
-                 "mgid",
-                 "trafficstars",
-                 "clickadu",
-                 "revcontent",
-                 "content_ad",
-                 "thetradedesk",
-                 "dv360",
-                 "amazon_dsp",
-                 "walmart",
-                 "applovin",
-                 "unity_ads",
-                 "spotify",
-                 "roku",
-                 "roundel",
-                 "instacart",
-                 "kroger",
-                 "ebay",
-                 "alibaba",
-                 "jd",
-                 "mercado_ads",
-                 "quora",
-                 "nextdoor",
-                 "yahoo_dsp",
-                 "stackadapt",
-                 "adform",
-                 "basis",
-                 "adskeeper",
-                 "equativ",
-                 "inmobi",
-                 "trafficjunky",
-                 "plugrush",
-                 "clickadilla",
-                 "juicyads",
-                 "eroadvertising",
-                 "impact",
-                 "cj",
-                 "awin",
-                 "partnerstack",
-                 "rakuten_advertising",
-                 "tradedoubler",
-                 "zeta",
-                 "admitad",
-                 "openai_ads",
-                 "mintegral",
-                 "moloco",
-                 "huawei_petal_ads",
-                 "liftoff",
-                 "adswizz",
-                 "kayzen",
-                 "jampp",
-                 "podscribe",
-                 "rollworks",
-                 "buysellads",
-                 "ethicalads",
-                 "avito",
-                 "indeed",
-                 "craigslist",
-                 "olx",
-                 "seek",
-                 "adshares",
-                 "bitmedia",
-                 "coinzilla",
-                 "hivestack",
-                 "vistar",
-                 "adquick",
-                 "beeswax",
-                 "simplifi",
-                 "adroll",
-                 "quantcast",
-                 "epom",
-                 "eskimi",
-                 "bidtheatre",
-                 "zemanta",
-                 "viant",
-                 "nexxen",
-                 "mediamath",
-                 "adobe_dsp",
-                 "rtb_house",
-                 "teads",
-                 "choozle",
-                 "roblox_ads",
-                 "yelp",
-                 "smartnews",
-                 "kakao_moment",
-                 "naver_gfa",
-                 "nativo",
-                 "paved",
-                 "letterhead",
-                 "sparkloop",
-                 "opera_ads",
-                 "remerge",
-                 "zeropark",
-                 "kadam",
-                 "hilltopads",
-                 "mybid",
-                 "passionfroot",
-                 "liveintent",
-                 "admaven",
-                 "adcash",
-                 "popcash",
-                 "mondiad",
-                 "galaksion",
-                 "evadav",
-                 "popads",
-                 "richads",
-                 "qianchuan",
-                 "uber_ads",
-                 "doordash",
-                 "bol",
-                 "ozon",
-                 "wildberries",
-                 "citrusad",
-                 "koddi",
-                 "topsort",
-                 "albertsons",
-                 "shopee",
-                 "sams_club",
-                 "otto",
-                 "allegro",
-                 "temu",
-                 "moloco_commerce",
-                 "yandex_direct",
-                 "baidu",
-                 "naver_searchad",
-                 "seznam_sklik",
-                 "yahoo_japan_ads",
-                 "kakao_keyword_ad",
-                 "so_360",
-                 "brave_ads",
-                 "vk_ads",
-                 "tencent_ads",
-                 "oceanengine",
-                 "weibo",
-                 "dcard",
-                 "zalo",
-                 "digital_turbine",
-                 "start_io",
-                 "xiaomi_ads",
-                 "chartboost",
-                 "magalu",
-                 "bidease",
-                 "lazada",
-                 "smadex",
-                 "newsbreak",
-                 "sogou",
-                 "getintent",
-                 "ziprecruiter",
-                 "mobon",
-                 "joveo",
-                 "aarki",
-                 "campaign_manager_360",
-                 "tapfiliate",
-                 "refersion",
-                 "kelkoo",
-                 "everflow",
-                 "rokt",
-                 "shopify_shop_campaigns",
-                 "adikteev",
-                 "tradetracker",
-                 "partnerize",
-                 "clickbank",
-                 "triplelift",
-                 "adtraction",
-                 "kargo",
-                 "skai",
-                 "demandbase",
-                 "appier",
-                 "takealot",
-                 "smartyads",
-                 "flipkart",
-                 "kuaishou",
-                 "kwai",
-                 "line_ads",
-                 "xiaohongshu",
-                 "vibe_co",
-                 "universal_ads",
-                 "tvscientific",
-                 "madhive",
-                 "rumble",
-                 "samsung_ads",
-                 "mntn",
-                 "meituan",
-                 "telegram_ads",
-                 "mock",
-                 "shenma",
-                 "coccoc",
-                 "perplexity",
-                 "tumblr",
-                 "discord",
-                 "bluesky",
-                 "graze_social",
-                 "kick",
-                 "bilibili",
-                 "zhihu",
-                 "sharechat",
-                 "dailyhunt",
-                 "hatena",
-                 "pixiv",
-                 "niconico",
-                 "ameba",
-                 "mastodon",
-                 "substack",
-                 "medium",
-                 "stack_overflow",
-                 "product_hunt",
-                 "hacker_news",
-                 "github",
-                 "imgur",
-                 "ninegag",
-                 "tinder",
-                 "bumble",
-                 "grindr",
-                 "strava",
-                 "xing",
-                 "gab",
-                 "minds",
-                 "bereal",
-                 "viber",
-                 "truecaller",
-                 "signal",
-                 "disney",
-                 "tatari",
-                 "spectrum_reach",
-                 "ampersand",
-                 "iqiyi",
-                 "jiohotstar",
-                 "zee5",
-                 "viu",
-                 "tver",
-                 "soop",
-                 "audacy",
-                 "libsyn",
-                 "audioboom",
-                 "redcircle",
-                 "gumball",
-                 "anghami",
-                 "etsy",
-                 "cvs",
-                 "ulta",
-                 "wayfair",
-                 "chewy",
-                 "sephora",
-                 "grab",
-                 "goto",
-                 "myntra",
-                 "meesho",
-                 "nykaa",
-                 "blinkit",
-                 "zepto",
-                 "swiggy",
-                 "rakuten_rpp",
-                 "mercari",
-                 "coupang",
-                 "zalando",
-                 "cdiscount",
-                 "tesco_media",
-                 "noon",
-                 "trendyol",
-                 "rappi",
-                 "ifood",
-                 "paypal_ads",
-                 "chase_media",
-                 "samsung_galaxy_store",
-                 "oppo_ads",
-                 "vivo_ads",
-                 "transsion_ads",
-                 "aptoide",
-                 "bigo_ads",
-                 "verve",
-                 "yeahmobi",
-                 "adjoe",
-                 "mistplay",
-                 "anzu",
-                 "frameplay",
-                 "admix",
-                 "steam",
-                 "playstation",
-                 "nintendo",
-                 "epic_games",
-                 "overwolf",
-                 "venatus",
-                 "microsoft_invest",
-                 "illumin",
-                 "cadent",
-                 "sixsense",
-                 "madison_logic",
-                 "hawk",
-                 "perion",
-                 "admixer",
-                 "dable",
-                 "popin",
-                 "logly",
-                 "gunosy",
-                 "plista",
-                 "zergnet",
-                 "lockerdome",
-                 "engageya",
-                 "flipboard",
-                 "rollerads",
-                 "pushground",
-                 "megapush",
-                 "bidvertiser",
-                 "seven_search",
-                 "infolinks",
-                 "twinred",
-                 "adxpansion",
-                 "cointraffic",
-                 "a_ads",
-                 "hypelab",
-                 "slise",
-                 "coinmarketcap_ads",
-                 "coingecko_ads",
-                 "collabstr",
-                 "beehiiv_ads",
-                 "sponsy",
-                 "kit_sponsor_network",
-                 "g2",
-                 "trustradius",
-                 "codefund",
-                 "daily_dev",
-                 "dev_to",
-                 "techtarget",
-                 "clutch",
-                 "angi",
-                 "thumbtack",
-                 "houzz",
-                 "two_gis",
-                 "kayak",
-                 "expedia_group",
-                 "trivago",
-                 "skyscanner",
-                 "hopper",
-                 "trip_com",
-                 "airbnb",
-                 "gumtree",
-                 "kijiji",
-                 "leboncoin",
-                 "stepstone",
-                 "appcast",
-                 "zillow",
-                 "billups",
-                 "hinge",
-                 "mixi",
-                 "taringa",
-                 "plurk",
-                 "mewe",
-                 "wattpad",
-                 "duolingo",
-                 "trovo",
-                 "letterboxd",
-                 "chingari",
-                 "ptt",
-                 "flickr",
-                 "fanfiction",
-                 "koo",
-                 "clubhouse",
-                 "caffeine",
-                 "hike",
-                 "patreon",
-                 "vimeo",
-                 "triller",
-                 "pacvue",
-                 "quartile",
-                 "magnite",
-                 "pubmatic",
-                 "openx",
-                 "index_exchange",
-                 "sharethrough",
-                 "sovrn",
-                 "gumgum",
-                 "yieldmo",
-                 "pulsepoint",
-                 "webgains",
-                 "involve_asia",
-                 "skimlinks",
-                 "triton_digital",
-                 "cardlytics",
-                 "ibotta_ipn",
-                 "mirakl_ads",
-                 "podcorn",
-                 "seedtag",
-                 "karrot_daangn",
-                 "toss_ads",
-                 "mts_ads",
-                 "pinduoduo",
-                 "carousell",
-                 "paytm_ads",
-                 "phonepe_ads",
-                 "zomato_ads",
-                 "ogury",
-                 "cognitiv",
-                 "system1",
-                 "boomplay",
-                 "sber_ads",
-                 "qoo10",
-                 "emag_ads",
-                 "kaspi_ads",
-                 "nectar360",
-                 "vinted_ads",
-                 "foursquare_ads",
-                 "jooble",
-                 "talent_com",
-                 "zoominfo_ads",
-                 "terminus",
-                 "ltk",
-                 "valuecommerce",
-                 "idealo",
-                 "pricerunner",
-                 "skroutz",
-                 "heureka",
-                 "zbozi_cz",
-                 "ceneo",
-                 "kevel",
-                 "sojern",
-                 "thrad",
-                 "zeroclick",
-                 "koah",
-                 "cartology",
-                 "coles_360",
-                 "kohls_media_network",
-                 "ad_retail_media",
-                 "hepsiburada_ads",
-                 "daisycon",
-                 "digistore24",
-                 "innovid",
-                 "mediaocean_prisma",
-                 "appnext",
-                 "sigmob",
-                 "topon_tradplus",
-                 "persona_ly",
-                 "glance",
-                 "mediavine",
-                 "raptive",
-                 "ezoic",
-                 "adpushup",
-                 "freestar",
-                 "playwire",
-                 "connatix",
-                 "jcdecaux",
-                 "clear_channel_outdoor",
-                 "outfront_media",
-                 "lamar_advertising",
-                 "moving_walls",
-                 "adomni",
-                 "bombora",
-                 "metadata_io",
-                 "influ2",
-                 "aspire",
-                 "creatoriq",
-                 "upfluence",
-                 "spreaker",
-                 "kinective_media",
-                 "shahid_mms_works",
-                 "nordstrom_media_network",
-                 "dicks_media_network",
-                 "zitcha",
-                 "promoted_ai",
-                 "makemytrip_ads",
-                 "yemeksepeti_ads",
-                 "glance_ads",
-                 "jioads",
-                 "cauly",
-                 "adpopcorn",
-                 "i_mobile",
-                 "microad",
-                 "logicad",
-                 "freakout_red",
-                 "ximalaya_ads",
-                 "netease_cloud_music_ads",
-                 "gaana_ads",
-                 "radiko_ads",
-                 "philo_ads",
-                 "xumo_ads",
-                 "rakuten_viki",
-                 "delivery_hero",
-                 "jumia",
-                 "tripadvisor"
-                ]
-               },
-               {
-                "type": "null"
-               }
-              ]
-             },
-             "metrics": {
-              "type": "object",
-              "properties": {
-               "spend": {
-                "$ref": "#/components/schemas/Money"
-               },
-               "impressions": {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-               },
-               "clicks": {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-               },
-               "conversions": {
-                "type": "number"
-               },
-               "conversionValue": {
-                "$ref": "#/components/schemas/Money"
-               },
-               "ctr": {
-                "type": [
-                 "number",
-                 "null"
-                ]
-               },
-               "cpc": {
-                "anyOf": [
-                 {
-                  "$ref": "#/components/schemas/Money"
-                 },
-                 {
-                  "type": "null"
-                 }
-                ]
-               },
-               "cpm": {
-                "anyOf": [
-                 {
-                  "$ref": "#/components/schemas/Money"
-                 },
-                 {
-                  "type": "null"
-                 }
-                ]
-               },
-               "cpa": {
-                "anyOf": [
-                 {
-                  "$ref": "#/components/schemas/Money"
-                 },
-                 {
-                  "type": "null"
-                 }
-                ]
-               },
-               "roas": {
-                "type": [
-                 "number",
-                 "null"
-                ]
-               }
-              },
-              "required": [
-               "spend",
-               "impressions",
-               "clicks",
-               "conversions",
-               "conversionValue",
-               "ctr",
-               "cpc",
-               "cpm",
-               "cpa",
-               "roas"
-              ],
-              "additionalProperties": false
-             }
-            },
-            "required": [
-             "value",
-             "platform",
-             "metrics"
-            ],
-            "additionalProperties": false
-           }
-          },
-          "totals": {
-           "type": "object",
-           "properties": {
-            "spend": {
-             "$ref": "#/components/schemas/Money"
-            },
-            "impressions": {
-             "type": "integer",
-             "minimum": -9007199254740991,
-             "maximum": 9007199254740991
-            },
-            "clicks": {
-             "type": "integer",
-             "minimum": -9007199254740991,
-             "maximum": 9007199254740991
-            },
-            "conversions": {
-             "type": "number"
-            },
-            "conversionValue": {
-             "$ref": "#/components/schemas/Money"
-            },
-            "ctr": {
-             "type": [
-              "number",
-              "null"
-             ]
-            },
-            "cpc": {
-             "anyOf": [
-              {
-               "$ref": "#/components/schemas/Money"
-              },
-              {
-               "type": "null"
-              }
-             ]
-            },
-            "cpm": {
-             "anyOf": [
-              {
-               "$ref": "#/components/schemas/Money"
-              },
-              {
-               "type": "null"
-              }
-             ]
-            },
-            "cpa": {
-             "anyOf": [
-              {
-               "$ref": "#/components/schemas/Money"
-              },
-              {
-               "type": "null"
-              }
-             ]
-            },
-            "roas": {
-             "type": [
-              "number",
-              "null"
-             ]
-            }
-           },
-           "required": [
-            "spend",
-            "impressions",
-            "clicks",
-            "conversions",
-            "conversionValue",
-            "ctr",
-            "cpc",
-            "cpm",
-            "cpa",
-            "roas"
-           ],
-           "additionalProperties": false
-          },
-          "missingFx": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "date": {
-              "type": "string"
-             },
-             "from": {
-              "type": "string"
-             }
-            },
-            "required": [
-             "date",
-             "from"
-            ],
-            "additionalProperties": false
-           }
-          }
-         },
-         "required": [
-          "dimension",
-          "currency",
-          "groups",
-          "totals",
-          "missingFx"
-         ],
-         "additionalProperties": false
-        }
-       }
-      }
-     },
      "default": {
       "description": "Error",
       "content": {
@@ -29579,21 +28408,11 @@
   "/v1/analytics/pacing": {
    "post": {
     "operationId": "analytics.pacing",
+    "x-read-only": true,
     "tags": [
      "analytics"
     ],
     "summary": "Budget pacing: spend vs expected to date, projected end, on_track/under/over (5% default)",
-    "parameters": [
-     {
-      "name": "Idempotency-Key",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "type": "string",
-       "maxLength": 255
-      }
-     }
-    ],
     "requestBody": {
      "required": true,
      "content": {
@@ -30172,544 +28991,6 @@
        }
       }
      },
-     "201": {
-      "description": "Created",
-      "content": {
-       "application/json": {
-        "schema": {
-         "type": "object",
-         "properties": {
-          "asOf": {
-           "type": "string"
-          },
-          "currency": {
-           "type": "string"
-          },
-          "campaigns": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "campaignId": {
-              "type": "string"
-             },
-             "name": {
-              "type": "string"
-             },
-             "platform": {
-              "type": "string"
-             },
-             "crossCampaignId": {
-              "type": [
-               "string",
-               "null"
-              ]
-             },
-             "budget": {
-              "anyOf": [
-               {
-                "type": "object",
-                "properties": {
-                 "type": {
-                  "type": "string",
-                  "enum": [
-                   "daily",
-                   "lifetime"
-                  ]
-                 },
-                 "amount": {
-                  "type": "object",
-                  "properties": {
-                   "micros": {
-                    "type": "integer",
-                    "minimum": -9007199254740991,
-                    "maximum": 9007199254740991
-                   },
-                   "currency": {
-                    "type": "string",
-                    "pattern": "^[A-Z]{3}$"
-                   }
-                  },
-                  "required": [
-                   "micros",
-                   "currency"
-                  ],
-                  "additionalProperties": false
-                 }
-                },
-                "required": [
-                 "type",
-                 "amount"
-                ],
-                "additionalProperties": false
-               },
-               {
-                "type": "null"
-               }
-              ]
-             },
-             "status": {
-              "type": "string",
-              "enum": [
-               "on_track",
-               "under",
-               "over"
-              ]
-             },
-             "startDate": {
-              "type": "string"
-             },
-             "endDate": {
-              "type": [
-               "string",
-               "null"
-              ]
-             },
-             "elapsedDays": {
-              "type": "number"
-             },
-             "totalDays": {
-              "type": [
-               "number",
-               "null"
-              ]
-             },
-             "weighting": {
-              "type": "string",
-              "enum": [
-               "day_of_week",
-               "uniform"
-              ]
-             },
-             "tolerance": {
-              "type": "number"
-             },
-             "paceRatio": {
-              "type": [
-               "number",
-               "null"
-              ]
-             },
-             "projectedVsBudget": {
-              "type": [
-               "number",
-               "null"
-              ]
-             },
-             "budgetTotal": {
-              "anyOf": [
-               {
-                "type": "object",
-                "properties": {
-                 "micros": {
-                  "type": "integer",
-                  "minimum": -9007199254740991,
-                  "maximum": 9007199254740991
-                 },
-                 "currency": {
-                  "type": "string",
-                  "pattern": "^[A-Z]{3}$"
-                 }
-                },
-                "required": [
-                 "micros",
-                 "currency"
-                ],
-                "additionalProperties": false
-               },
-               {
-                "type": "null"
-               }
-              ]
-             },
-             "spendToDate": {
-              "anyOf": [
-               {
-                "type": "object",
-                "properties": {
-                 "micros": {
-                  "type": "integer",
-                  "minimum": -9007199254740991,
-                  "maximum": 9007199254740991
-                 },
-                 "currency": {
-                  "type": "string",
-                  "pattern": "^[A-Z]{3}$"
-                 }
-                },
-                "required": [
-                 "micros",
-                 "currency"
-                ],
-                "additionalProperties": false
-               },
-               {
-                "type": "null"
-               }
-              ]
-             },
-             "expectedLinear": {
-              "anyOf": [
-               {
-                "type": "object",
-                "properties": {
-                 "micros": {
-                  "type": "integer",
-                  "minimum": -9007199254740991,
-                  "maximum": 9007199254740991
-                 },
-                 "currency": {
-                  "type": "string",
-                  "pattern": "^[A-Z]{3}$"
-                 }
-                },
-                "required": [
-                 "micros",
-                 "currency"
-                ],
-                "additionalProperties": false
-               },
-               {
-                "type": "null"
-               }
-              ]
-             },
-             "expectedWeighted": {
-              "anyOf": [
-               {
-                "type": "object",
-                "properties": {
-                 "micros": {
-                  "type": "integer",
-                  "minimum": -9007199254740991,
-                  "maximum": 9007199254740991
-                 },
-                 "currency": {
-                  "type": "string",
-                  "pattern": "^[A-Z]{3}$"
-                 }
-                },
-                "required": [
-                 "micros",
-                 "currency"
-                ],
-                "additionalProperties": false
-               },
-               {
-                "type": "null"
-               }
-              ]
-             },
-             "projectedEnd": {
-              "anyOf": [
-               {
-                "type": "object",
-                "properties": {
-                 "micros": {
-                  "type": "integer",
-                  "minimum": -9007199254740991,
-                  "maximum": 9007199254740991
-                 },
-                 "currency": {
-                  "type": "string",
-                  "pattern": "^[A-Z]{3}$"
-                 }
-                },
-                "required": [
-                 "micros",
-                 "currency"
-                ],
-                "additionalProperties": false
-               },
-               {
-                "type": "null"
-               }
-              ]
-             }
-            },
-            "required": [
-             "campaignId",
-             "name",
-             "platform",
-             "crossCampaignId",
-             "budget",
-             "status",
-             "startDate",
-             "endDate",
-             "elapsedDays",
-             "totalDays",
-             "weighting",
-             "tolerance",
-             "paceRatio",
-             "projectedVsBudget",
-             "budgetTotal",
-             "spendToDate",
-             "expectedLinear",
-             "expectedWeighted",
-             "projectedEnd"
-            ],
-            "additionalProperties": false
-           }
-          },
-          "rollup": {
-           "anyOf": [
-            {
-             "type": "object",
-             "properties": {
-              "status": {
-               "type": "string",
-               "enum": [
-                "on_track",
-                "under",
-                "over"
-               ]
-              },
-              "startDate": {
-               "type": "string"
-              },
-              "endDate": {
-               "type": [
-                "string",
-                "null"
-               ]
-              },
-              "elapsedDays": {
-               "type": "number"
-              },
-              "totalDays": {
-               "type": [
-                "number",
-                "null"
-               ]
-              },
-              "weighting": {
-               "type": "string",
-               "enum": [
-                "day_of_week",
-                "uniform"
-               ]
-              },
-              "tolerance": {
-               "type": "number"
-              },
-              "paceRatio": {
-               "type": [
-                "number",
-                "null"
-               ]
-              },
-              "projectedVsBudget": {
-               "type": [
-                "number",
-                "null"
-               ]
-              },
-              "budgetTotal": {
-               "anyOf": [
-                {
-                 "type": "object",
-                 "properties": {
-                  "micros": {
-                   "type": "integer",
-                   "minimum": -9007199254740991,
-                   "maximum": 9007199254740991
-                  },
-                  "currency": {
-                   "type": "string",
-                   "pattern": "^[A-Z]{3}$"
-                  }
-                 },
-                 "required": [
-                  "micros",
-                  "currency"
-                 ],
-                 "additionalProperties": false
-                },
-                {
-                 "type": "null"
-                }
-               ]
-              },
-              "spendToDate": {
-               "anyOf": [
-                {
-                 "type": "object",
-                 "properties": {
-                  "micros": {
-                   "type": "integer",
-                   "minimum": -9007199254740991,
-                   "maximum": 9007199254740991
-                  },
-                  "currency": {
-                   "type": "string",
-                   "pattern": "^[A-Z]{3}$"
-                  }
-                 },
-                 "required": [
-                  "micros",
-                  "currency"
-                 ],
-                 "additionalProperties": false
-                },
-                {
-                 "type": "null"
-                }
-               ]
-              },
-              "expectedLinear": {
-               "anyOf": [
-                {
-                 "type": "object",
-                 "properties": {
-                  "micros": {
-                   "type": "integer",
-                   "minimum": -9007199254740991,
-                   "maximum": 9007199254740991
-                  },
-                  "currency": {
-                   "type": "string",
-                   "pattern": "^[A-Z]{3}$"
-                  }
-                 },
-                 "required": [
-                  "micros",
-                  "currency"
-                 ],
-                 "additionalProperties": false
-                },
-                {
-                 "type": "null"
-                }
-               ]
-              },
-              "expectedWeighted": {
-               "anyOf": [
-                {
-                 "type": "object",
-                 "properties": {
-                  "micros": {
-                   "type": "integer",
-                   "minimum": -9007199254740991,
-                   "maximum": 9007199254740991
-                  },
-                  "currency": {
-                   "type": "string",
-                   "pattern": "^[A-Z]{3}$"
-                  }
-                 },
-                 "required": [
-                  "micros",
-                  "currency"
-                 ],
-                 "additionalProperties": false
-                },
-                {
-                 "type": "null"
-                }
-               ]
-              },
-              "projectedEnd": {
-               "anyOf": [
-                {
-                 "type": "object",
-                 "properties": {
-                  "micros": {
-                   "type": "integer",
-                   "minimum": -9007199254740991,
-                   "maximum": 9007199254740991
-                  },
-                  "currency": {
-                   "type": "string",
-                   "pattern": "^[A-Z]{3}$"
-                  }
-                 },
-                 "required": [
-                  "micros",
-                  "currency"
-                 ],
-                 "additionalProperties": false
-                },
-                {
-                 "type": "null"
-                }
-               ]
-              }
-             },
-             "required": [
-              "status",
-              "startDate",
-              "endDate",
-              "elapsedDays",
-              "totalDays",
-              "weighting",
-              "tolerance",
-              "paceRatio",
-              "projectedVsBudget",
-              "budgetTotal",
-              "spendToDate",
-              "expectedLinear",
-              "expectedWeighted",
-              "projectedEnd"
-             ],
-             "additionalProperties": false
-            },
-            {
-             "type": "null"
-            }
-           ]
-          },
-          "skipped": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "campaignId": {
-              "type": "string"
-             },
-             "reason": {
-              "type": "string"
-             }
-            },
-            "required": [
-             "campaignId",
-             "reason"
-            ],
-            "additionalProperties": false
-           }
-          },
-          "missingFx": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "date": {
-              "type": "string"
-             },
-             "from": {
-              "type": "string"
-             }
-            },
-            "required": [
-             "date",
-             "from"
-            ],
-            "additionalProperties": false
-           }
-          }
-         },
-         "required": [
-          "asOf",
-          "currency",
-          "campaigns",
-          "rollup",
-          "skipped",
-          "missingFx"
-         ],
-         "additionalProperties": false
-        }
-       }
-      }
-     },
      "default": {
       "description": "Error",
       "content": {
@@ -30734,21 +29015,11 @@
   "/v1/analytics/forecast": {
    "post": {
     "operationId": "analytics.forecast",
+    "x-read-only": true,
     "tags": [
      "analytics"
     ],
     "summary": "Forecast spend, conversions and value for N days (seasonal naive or Holt); needs 14+ days",
-    "parameters": [
-     {
-      "name": "Idempotency-Key",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "type": "string",
-       "maxLength": 255
-      }
-     }
-    ],
     "requestBody": {
      "required": true,
      "content": {
@@ -31352,553 +29623,6 @@
        }
       }
      },
-     "201": {
-      "description": "Created",
-      "content": {
-       "application/json": {
-        "schema": {
-         "type": "object",
-         "properties": {
-          "asOf": {
-           "type": "string"
-          },
-          "currency": {
-           "type": "string"
-          },
-          "groupBy": {
-           "type": "string",
-           "enum": [
-            "campaign",
-            "platform",
-            "cross_campaign"
-           ]
-          },
-          "results": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "key": {
-              "type": "string"
-             },
-             "error": {
-              "description": "Set when the group has under 14 days of history",
-              "type": [
-               "string",
-               "null"
-              ]
-             },
-             "spend": {
-              "type": "object",
-              "properties": {
-               "method": {
-                "type": "string",
-                "enum": [
-                 "seasonal_naive_weekly",
-                 "holt"
-                ]
-               },
-               "candidates": {
-                "type": "array",
-                "items": {
-                 "type": "object",
-                 "properties": {
-                  "method": {
-                   "type": "string"
-                  },
-                  "rmse": {
-                   "type": "number"
-                  }
-                 },
-                 "required": [
-                  "method",
-                  "rmse"
-                 ],
-                 "additionalProperties": false
-                }
-               },
-               "historyDays": {
-                "type": "number"
-               },
-               "level": {
-                "type": "number"
-               },
-               "points": {
-                "type": "array",
-                "items": {
-                 "type": "object",
-                 "properties": {
-                  "value": {
-                   "type": "object",
-                   "properties": {
-                    "micros": {
-                     "type": "integer",
-                     "minimum": -9007199254740991,
-                     "maximum": 9007199254740991
-                    },
-                    "currency": {
-                     "type": "string",
-                     "pattern": "^[A-Z]{3}$"
-                    }
-                   },
-                   "required": [
-                    "micros",
-                    "currency"
-                   ],
-                   "additionalProperties": false
-                  },
-                  "lower": {
-                   "type": "object",
-                   "properties": {
-                    "micros": {
-                     "type": "integer",
-                     "minimum": -9007199254740991,
-                     "maximum": 9007199254740991
-                    },
-                    "currency": {
-                     "type": "string",
-                     "pattern": "^[A-Z]{3}$"
-                    }
-                   },
-                   "required": [
-                    "micros",
-                    "currency"
-                   ],
-                   "additionalProperties": false
-                  },
-                  "upper": {
-                   "type": "object",
-                   "properties": {
-                    "micros": {
-                     "type": "integer",
-                     "minimum": -9007199254740991,
-                     "maximum": 9007199254740991
-                    },
-                    "currency": {
-                     "type": "string",
-                     "pattern": "^[A-Z]{3}$"
-                    }
-                   },
-                   "required": [
-                    "micros",
-                    "currency"
-                   ],
-                   "additionalProperties": false
-                  },
-                  "date": {
-                   "type": "string"
-                  }
-                 },
-                 "required": [
-                  "value",
-                  "lower",
-                  "upper",
-                  "date"
-                 ],
-                 "additionalProperties": false
-                }
-               },
-               "total": {
-                "type": "object",
-                "properties": {
-                 "value": {
-                  "type": "object",
-                  "properties": {
-                   "micros": {
-                    "type": "integer",
-                    "minimum": -9007199254740991,
-                    "maximum": 9007199254740991
-                   },
-                   "currency": {
-                    "type": "string",
-                    "pattern": "^[A-Z]{3}$"
-                   }
-                  },
-                  "required": [
-                   "micros",
-                   "currency"
-                  ],
-                  "additionalProperties": false
-                 },
-                 "lower": {
-                  "type": "object",
-                  "properties": {
-                   "micros": {
-                    "type": "integer",
-                    "minimum": -9007199254740991,
-                    "maximum": 9007199254740991
-                   },
-                   "currency": {
-                    "type": "string",
-                    "pattern": "^[A-Z]{3}$"
-                   }
-                  },
-                  "required": [
-                   "micros",
-                   "currency"
-                  ],
-                  "additionalProperties": false
-                 },
-                 "upper": {
-                  "type": "object",
-                  "properties": {
-                   "micros": {
-                    "type": "integer",
-                    "minimum": -9007199254740991,
-                    "maximum": 9007199254740991
-                   },
-                   "currency": {
-                    "type": "string",
-                    "pattern": "^[A-Z]{3}$"
-                   }
-                  },
-                  "required": [
-                   "micros",
-                   "currency"
-                  ],
-                  "additionalProperties": false
-                 }
-                },
-                "required": [
-                 "value",
-                 "lower",
-                 "upper"
-                ],
-                "additionalProperties": false
-               }
-              },
-              "required": [
-               "method",
-               "candidates",
-               "historyDays",
-               "level",
-               "points",
-               "total"
-              ],
-              "additionalProperties": false
-             },
-             "conversions": {
-              "type": "object",
-              "properties": {
-               "method": {
-                "type": "string",
-                "enum": [
-                 "seasonal_naive_weekly",
-                 "holt"
-                ]
-               },
-               "candidates": {
-                "type": "array",
-                "items": {
-                 "type": "object",
-                 "properties": {
-                  "method": {
-                   "type": "string"
-                  },
-                  "rmse": {
-                   "type": "number"
-                  }
-                 },
-                 "required": [
-                  "method",
-                  "rmse"
-                 ],
-                 "additionalProperties": false
-                }
-               },
-               "historyDays": {
-                "type": "number"
-               },
-               "level": {
-                "type": "number"
-               },
-               "points": {
-                "type": "array",
-                "items": {
-                 "type": "object",
-                 "properties": {
-                  "value": {
-                   "type": "number"
-                  },
-                  "lower": {
-                   "type": "number"
-                  },
-                  "upper": {
-                   "type": "number"
-                  },
-                  "date": {
-                   "type": "string"
-                  }
-                 },
-                 "required": [
-                  "value",
-                  "lower",
-                  "upper",
-                  "date"
-                 ],
-                 "additionalProperties": false
-                }
-               },
-               "total": {
-                "type": "object",
-                "properties": {
-                 "value": {
-                  "type": "number"
-                 },
-                 "lower": {
-                  "type": "number"
-                 },
-                 "upper": {
-                  "type": "number"
-                 }
-                },
-                "required": [
-                 "value",
-                 "lower",
-                 "upper"
-                ],
-                "additionalProperties": false
-               }
-              },
-              "required": [
-               "method",
-               "candidates",
-               "historyDays",
-               "level",
-               "points",
-               "total"
-              ],
-              "additionalProperties": false
-             },
-             "conversionValue": {
-              "type": "object",
-              "properties": {
-               "method": {
-                "type": "string",
-                "enum": [
-                 "seasonal_naive_weekly",
-                 "holt"
-                ]
-               },
-               "candidates": {
-                "type": "array",
-                "items": {
-                 "type": "object",
-                 "properties": {
-                  "method": {
-                   "type": "string"
-                  },
-                  "rmse": {
-                   "type": "number"
-                  }
-                 },
-                 "required": [
-                  "method",
-                  "rmse"
-                 ],
-                 "additionalProperties": false
-                }
-               },
-               "historyDays": {
-                "type": "number"
-               },
-               "level": {
-                "type": "number"
-               },
-               "points": {
-                "type": "array",
-                "items": {
-                 "type": "object",
-                 "properties": {
-                  "value": {
-                   "type": "object",
-                   "properties": {
-                    "micros": {
-                     "type": "integer",
-                     "minimum": -9007199254740991,
-                     "maximum": 9007199254740991
-                    },
-                    "currency": {
-                     "type": "string",
-                     "pattern": "^[A-Z]{3}$"
-                    }
-                   },
-                   "required": [
-                    "micros",
-                    "currency"
-                   ],
-                   "additionalProperties": false
-                  },
-                  "lower": {
-                   "type": "object",
-                   "properties": {
-                    "micros": {
-                     "type": "integer",
-                     "minimum": -9007199254740991,
-                     "maximum": 9007199254740991
-                    },
-                    "currency": {
-                     "type": "string",
-                     "pattern": "^[A-Z]{3}$"
-                    }
-                   },
-                   "required": [
-                    "micros",
-                    "currency"
-                   ],
-                   "additionalProperties": false
-                  },
-                  "upper": {
-                   "type": "object",
-                   "properties": {
-                    "micros": {
-                     "type": "integer",
-                     "minimum": -9007199254740991,
-                     "maximum": 9007199254740991
-                    },
-                    "currency": {
-                     "type": "string",
-                     "pattern": "^[A-Z]{3}$"
-                    }
-                   },
-                   "required": [
-                    "micros",
-                    "currency"
-                   ],
-                   "additionalProperties": false
-                  },
-                  "date": {
-                   "type": "string"
-                  }
-                 },
-                 "required": [
-                  "value",
-                  "lower",
-                  "upper",
-                  "date"
-                 ],
-                 "additionalProperties": false
-                }
-               },
-               "total": {
-                "type": "object",
-                "properties": {
-                 "value": {
-                  "type": "object",
-                  "properties": {
-                   "micros": {
-                    "type": "integer",
-                    "minimum": -9007199254740991,
-                    "maximum": 9007199254740991
-                   },
-                   "currency": {
-                    "type": "string",
-                    "pattern": "^[A-Z]{3}$"
-                   }
-                  },
-                  "required": [
-                   "micros",
-                   "currency"
-                  ],
-                  "additionalProperties": false
-                 },
-                 "lower": {
-                  "type": "object",
-                  "properties": {
-                   "micros": {
-                    "type": "integer",
-                    "minimum": -9007199254740991,
-                    "maximum": 9007199254740991
-                   },
-                   "currency": {
-                    "type": "string",
-                    "pattern": "^[A-Z]{3}$"
-                   }
-                  },
-                  "required": [
-                   "micros",
-                   "currency"
-                  ],
-                  "additionalProperties": false
-                 },
-                 "upper": {
-                  "type": "object",
-                  "properties": {
-                   "micros": {
-                    "type": "integer",
-                    "minimum": -9007199254740991,
-                    "maximum": 9007199254740991
-                   },
-                   "currency": {
-                    "type": "string",
-                    "pattern": "^[A-Z]{3}$"
-                   }
-                  },
-                  "required": [
-                   "micros",
-                   "currency"
-                  ],
-                  "additionalProperties": false
-                 }
-                },
-                "required": [
-                 "value",
-                 "lower",
-                 "upper"
-                ],
-                "additionalProperties": false
-               }
-              },
-              "required": [
-               "method",
-               "candidates",
-               "historyDays",
-               "level",
-               "points",
-               "total"
-              ],
-              "additionalProperties": false
-             }
-            },
-            "required": [
-             "key",
-             "error"
-            ],
-            "additionalProperties": false
-           }
-          },
-          "missingFx": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "date": {
-              "type": "string"
-             },
-             "from": {
-              "type": "string"
-             }
-            },
-            "required": [
-             "date",
-             "from"
-            ],
-            "additionalProperties": false
-           }
-          }
-         },
-         "required": [
-          "asOf",
-          "currency",
-          "groupBy",
-          "results",
-          "missingFx"
-         ],
-         "additionalProperties": false
-        }
-       }
-      }
-     },
      "default": {
       "description": "Error",
       "content": {
@@ -31923,21 +29647,11 @@
   "/v1/analytics/synergy": {
    "post": {
     "operationId": "analytics.synergy",
+    "x-read-only": true,
     "tags": [
      "analytics"
     ],
     "summary": "Blended MER, platform overlap and assists, lagged spend correlation (not causal)",
-    "parameters": [
-     {
-      "name": "Idempotency-Key",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "type": "string",
-       "maxLength": 255
-      }
-     }
-    ],
     "requestBody": {
      "required": true,
      "content": {
@@ -32312,322 +30026,6 @@
        }
       }
      },
-     "201": {
-      "description": "Created",
-      "content": {
-       "application/json": {
-        "schema": {
-         "type": "object",
-         "properties": {
-          "currency": {
-           "type": "string"
-          },
-          "mer": {
-           "type": "object",
-           "properties": {
-            "total": {
-             "type": "object",
-             "properties": {
-              "spend": {
-               "type": "object",
-               "properties": {
-                "micros": {
-                 "type": "integer",
-                 "minimum": -9007199254740991,
-                 "maximum": 9007199254740991
-                },
-                "currency": {
-                 "type": "string",
-                 "pattern": "^[A-Z]{3}$"
-                }
-               },
-               "required": [
-                "micros",
-                "currency"
-               ],
-               "additionalProperties": false
-              },
-              "revenue": {
-               "type": "object",
-               "properties": {
-                "micros": {
-                 "type": "integer",
-                 "minimum": -9007199254740991,
-                 "maximum": 9007199254740991
-                },
-                "currency": {
-                 "type": "string",
-                 "pattern": "^[A-Z]{3}$"
-                }
-               },
-               "required": [
-                "micros",
-                "currency"
-               ],
-               "additionalProperties": false
-              },
-              "mer": {
-               "type": [
-                "number",
-                "null"
-               ]
-              }
-             },
-             "required": [
-              "spend",
-              "revenue",
-              "mer"
-             ],
-             "additionalProperties": false
-            },
-            "points": {
-             "type": "array",
-             "items": {
-              "type": "object",
-              "properties": {
-               "date": {
-                "type": "string"
-               },
-               "mer": {
-                "type": [
-                 "number",
-                 "null"
-                ]
-               },
-               "rolling": {
-                "type": [
-                 "number",
-                 "null"
-                ]
-               }
-              },
-              "required": [
-               "date",
-               "mer",
-               "rolling"
-              ],
-              "additionalProperties": false
-             }
-            }
-           },
-           "required": [
-            "total",
-            "points"
-           ],
-           "additionalProperties": false
-          },
-          "overlap": {
-           "type": "object",
-           "properties": {
-            "journeys": {
-             "type": "number"
-            },
-            "withPaidTouch": {
-             "type": "number"
-            },
-            "multiPlatform": {
-             "type": "number"
-            },
-            "platforms": {
-             "type": "array",
-             "items": {
-              "type": "object",
-              "properties": {
-               "platform": {
-                "type": "string"
-               },
-               "touched": {
-                "type": "number"
-               },
-               "lastClick": {
-                "type": "number"
-               },
-               "assisted": {
-                "type": "number"
-               },
-               "assistToLastClick": {
-                "type": [
-                 "number",
-                 "null"
-                ]
-               }
-              },
-              "required": [
-               "platform",
-               "touched",
-               "lastClick",
-               "assisted",
-               "assistToLastClick"
-              ],
-              "additionalProperties": false
-             }
-            },
-            "pairs": {
-             "type": "array",
-             "items": {
-              "type": "object",
-              "properties": {
-               "a": {
-                "type": "string"
-               },
-               "b": {
-                "type": "string"
-               },
-               "journeys": {
-                "type": "number"
-               },
-               "shareOfEither": {
-                "type": "number"
-               }
-              },
-              "required": [
-               "a",
-               "b",
-               "journeys",
-               "shareOfEither"
-              ],
-              "additionalProperties": false
-             }
-            }
-           },
-           "required": [
-            "journeys",
-            "withPaidTouch",
-            "multiPlatform",
-            "platforms",
-            "pairs"
-           ],
-           "additionalProperties": false
-          },
-          "correlation": {
-           "type": "object",
-           "properties": {
-            "note": {
-             "type": "string"
-            },
-            "rows": {
-             "type": "array",
-             "items": {
-              "type": "object",
-              "properties": {
-               "from": {
-                "type": "string"
-               },
-               "to": {
-                "type": "string"
-               },
-               "lags": {
-                "type": "array",
-                "items": {
-                 "type": "object",
-                 "properties": {
-                  "lag": {
-                   "type": "number"
-                  },
-                  "r": {
-                   "type": [
-                    "number",
-                    "null"
-                   ]
-                  },
-                  "n": {
-                   "type": "number"
-                  }
-                 },
-                 "required": [
-                  "lag",
-                  "r",
-                  "n"
-                 ],
-                 "additionalProperties": false
-                }
-               },
-               "best": {
-                "anyOf": [
-                 {
-                  "type": "object",
-                  "properties": {
-                   "lag": {
-                    "type": "number"
-                   },
-                   "r": {
-                    "type": "number"
-                   }
-                  },
-                  "required": [
-                   "lag",
-                   "r"
-                  ],
-                  "additionalProperties": false
-                 },
-                 {
-                  "type": "null"
-                 }
-                ]
-               },
-               "strength": {
-                "type": "string",
-                "enum": [
-                 "strong",
-                 "moderate",
-                 "weak",
-                 "insufficient_data"
-                ]
-               },
-               "caveat": {
-                "type": "string"
-               }
-              },
-              "required": [
-               "from",
-               "to",
-               "lags",
-               "best",
-               "strength",
-               "caveat"
-              ],
-              "additionalProperties": false
-             }
-            }
-           },
-           "required": [
-            "note",
-            "rows"
-           ],
-           "additionalProperties": false
-          },
-          "missingFx": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "date": {
-              "type": "string"
-             },
-             "from": {
-              "type": "string"
-             }
-            },
-            "required": [
-             "date",
-             "from"
-            ],
-            "additionalProperties": false
-           }
-          }
-         },
-         "required": [
-          "currency",
-          "mer",
-          "overlap",
-          "correlation",
-          "missingFx"
-         ],
-         "additionalProperties": false
-        }
-       }
-      }
-     },
      "default": {
       "description": "Error",
       "content": {
@@ -32652,21 +30050,11 @@
   "/v1/analytics/saturation": {
    "post": {
     "operationId": "analytics.saturation",
+    "x-read-only": true,
     "tags": [
      "analytics"
     ],
     "summary": "Diminishing-returns fit per platform or campaign with marginal ROAS and a confidence flag",
-    "parameters": [
-     {
-      "name": "Idempotency-Key",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "type": "string",
-       "maxLength": 255
-      }
-     }
-    ],
     "requestBody": {
      "required": true,
      "content": {
@@ -32897,186 +30285,6 @@
        }
       }
      },
-     "201": {
-      "description": "Created",
-      "content": {
-       "application/json": {
-        "schema": {
-         "type": "object",
-         "properties": {
-          "currency": {
-           "type": "string"
-          },
-          "groupBy": {
-           "type": "string",
-           "enum": [
-            "platform",
-            "campaign"
-           ]
-          },
-          "model": {
-           "type": "string"
-          },
-          "results": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "key": {
-              "type": "string"
-             },
-             "points": {
-              "type": "number"
-             },
-             "fit": {
-              "anyOf": [
-               {
-                "type": "object",
-                "properties": {
-                 "a": {
-                  "type": "object",
-                  "properties": {
-                   "micros": {
-                    "type": "integer",
-                    "minimum": -9007199254740991,
-                    "maximum": 9007199254740991
-                   },
-                   "currency": {
-                    "type": "string",
-                    "pattern": "^[A-Z]{3}$"
-                   }
-                  },
-                  "required": [
-                   "micros",
-                   "currency"
-                  ],
-                  "additionalProperties": false
-                 },
-                 "b": {
-                  "type": "object",
-                  "properties": {
-                   "micros": {
-                    "type": "integer",
-                    "minimum": -9007199254740991,
-                    "maximum": 9007199254740991
-                   },
-                   "currency": {
-                    "type": "string",
-                    "pattern": "^[A-Z]{3}$"
-                   }
-                  },
-                  "required": [
-                   "micros",
-                   "currency"
-                  ],
-                  "additionalProperties": false
-                 },
-                 "r2": {
-                  "type": "number"
-                 }
-                },
-                "required": [
-                 "a",
-                 "b",
-                 "r2"
-                ],
-                "additionalProperties": false
-               },
-               {
-                "type": "null"
-               }
-              ]
-             },
-             "currentDailySpend": {
-              "type": "object",
-              "properties": {
-               "micros": {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-               },
-               "currency": {
-                "type": "string",
-                "pattern": "^[A-Z]{3}$"
-               }
-              },
-              "required": [
-               "micros",
-               "currency"
-              ],
-              "additionalProperties": false
-             },
-             "marginalRoas": {
-              "type": [
-               "number",
-               "null"
-              ]
-             },
-             "averageRoas": {
-              "type": [
-               "number",
-               "null"
-              ]
-             },
-             "confidence": {
-              "type": "string",
-              "enum": [
-               "ok",
-               "low"
-              ]
-             },
-             "reasons": {
-              "type": "array",
-              "items": {
-               "type": "string"
-              }
-             }
-            },
-            "required": [
-             "key",
-             "points",
-             "fit",
-             "currentDailySpend",
-             "marginalRoas",
-             "averageRoas",
-             "confidence",
-             "reasons"
-            ],
-            "additionalProperties": false
-           }
-          },
-          "missingFx": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "date": {
-              "type": "string"
-             },
-             "from": {
-              "type": "string"
-             }
-            },
-            "required": [
-             "date",
-             "from"
-            ],
-            "additionalProperties": false
-           }
-          }
-         },
-         "required": [
-          "currency",
-          "groupBy",
-          "model",
-          "results",
-          "missingFx"
-         ],
-         "additionalProperties": false
-        }
-       }
-      }
-     },
      "default": {
       "description": "Error",
       "content": {
@@ -33101,21 +30309,11 @@
   "/v1/analytics/reallocation": {
    "post": {
     "operationId": "analytics.reallocation",
+    "x-read-only": true,
     "tags": [
      "analytics"
     ],
     "summary": "Advisory budget reallocation equalizing marginal ROAS at the same total; never writes",
-    "parameters": [
-     {
-      "name": "Idempotency-Key",
-      "in": "header",
-      "required": false,
-      "schema": {
-       "type": "string",
-       "maxLength": 255
-      }
-     }
-    ],
     "requestBody": {
      "required": true,
      "content": {
@@ -33188,250 +30386,6 @@
     "responses": {
      "200": {
       "description": "OK",
-      "content": {
-       "application/json": {
-        "schema": {
-         "type": "object",
-         "properties": {
-          "advisory": {
-           "type": "boolean",
-           "const": true
-          },
-          "currency": {
-           "type": "string"
-          },
-          "window": {
-           "type": "object",
-           "properties": {
-            "from": {
-             "type": "string",
-             "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
-            },
-            "to": {
-             "type": "string",
-             "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
-            }
-           },
-           "required": [
-            "from",
-            "to"
-           ],
-           "additionalProperties": false
-          },
-          "totalDailyBudget": {
-           "type": "object",
-           "properties": {
-            "micros": {
-             "type": "integer",
-             "minimum": -9007199254740991,
-             "maximum": 9007199254740991
-            },
-            "currency": {
-             "type": "string",
-             "pattern": "^[A-Z]{3}$"
-            }
-           },
-           "required": [
-            "micros",
-            "currency"
-           ],
-           "additionalProperties": false
-          },
-          "expectedDailyValueDelta": {
-           "type": "object",
-           "properties": {
-            "micros": {
-             "type": "integer",
-             "minimum": -9007199254740991,
-             "maximum": 9007199254740991
-            },
-            "currency": {
-             "type": "string",
-             "pattern": "^[A-Z]{3}$"
-            }
-           },
-           "required": [
-            "micros",
-            "currency"
-           ],
-           "additionalProperties": false
-          },
-          "rows": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "platform": {
-              "type": "string"
-             },
-             "held": {
-              "type": "boolean"
-             },
-             "currentDaily": {
-              "type": "object",
-              "properties": {
-               "micros": {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-               },
-               "currency": {
-                "type": "string",
-                "pattern": "^[A-Z]{3}$"
-               }
-              },
-              "required": [
-               "micros",
-               "currency"
-              ],
-              "additionalProperties": false
-             },
-             "suggestedDaily": {
-              "type": "object",
-              "properties": {
-               "micros": {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-               },
-               "currency": {
-                "type": "string",
-                "pattern": "^[A-Z]{3}$"
-               }
-              },
-              "required": [
-               "micros",
-               "currency"
-              ],
-              "additionalProperties": false
-             },
-             "change": {
-              "type": "object",
-              "properties": {
-               "micros": {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-               },
-               "currency": {
-                "type": "string",
-                "pattern": "^[A-Z]{3}$"
-               }
-              },
-              "required": [
-               "micros",
-               "currency"
-              ],
-              "additionalProperties": false
-             },
-             "marginalRoasBefore": {
-              "type": [
-               "number",
-               "null"
-              ]
-             },
-             "marginalRoasAfter": {
-              "type": [
-               "number",
-               "null"
-              ]
-             },
-             "expectedDailyValueBefore": {
-              "type": "object",
-              "properties": {
-               "micros": {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-               },
-               "currency": {
-                "type": "string",
-                "pattern": "^[A-Z]{3}$"
-               }
-              },
-              "required": [
-               "micros",
-               "currency"
-              ],
-              "additionalProperties": false
-             },
-             "expectedDailyValueAfter": {
-              "type": "object",
-              "properties": {
-               "micros": {
-                "type": "integer",
-                "minimum": -9007199254740991,
-                "maximum": 9007199254740991
-               },
-               "currency": {
-                "type": "string",
-                "pattern": "^[A-Z]{3}$"
-               }
-              },
-              "required": [
-               "micros",
-               "currency"
-              ],
-              "additionalProperties": false
-             }
-            },
-            "required": [
-             "platform",
-             "held",
-             "currentDaily",
-             "suggestedDaily",
-             "change",
-             "marginalRoasBefore",
-             "marginalRoasAfter",
-             "expectedDailyValueBefore",
-             "expectedDailyValueAfter"
-            ],
-            "additionalProperties": false
-           }
-          },
-          "notes": {
-           "type": "array",
-           "items": {
-            "type": "string"
-           }
-          },
-          "missingFx": {
-           "type": "array",
-           "items": {
-            "type": "object",
-            "properties": {
-             "date": {
-              "type": "string"
-             },
-             "from": {
-              "type": "string"
-             }
-            },
-            "required": [
-             "date",
-             "from"
-            ],
-            "additionalProperties": false
-           }
-          }
-         },
-         "required": [
-          "advisory",
-          "currency",
-          "window",
-          "totalDailyBudget",
-          "expectedDailyValueDelta",
-          "rows",
-          "notes",
-          "missingFx"
-         ],
-         "additionalProperties": false
-        }
-       }
-      }
-     },
-     "201": {
-      "description": "Created",
       "content": {
        "application/json": {
         "schema": {

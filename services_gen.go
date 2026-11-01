@@ -449,7 +449,7 @@ func (s *AlertsService) Resolve(ctx context.Context, id string, opts ...CallOpti
 // Breakdown: Metrics split by a dimension (country, device, placement, age, gender, hour), across platforms (POST /v1/analytics/breakdown).
 func (s *AnalyticsService) Breakdown(ctx context.Context, body *AnalyticsBreakdownRequest, opts ...CallOption) (*AnalyticsBreakdownResponse, error) {
 	out := new(AnalyticsBreakdownResponse)
-	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/breakdown"), query: nil, idem: true, dry: false, noAuth: false}, body, opts, out); err != nil {
+	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/breakdown"), query: nil, idem: false, dry: false, noAuth: false}, body, opts, out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -458,7 +458,7 @@ func (s *AnalyticsService) Breakdown(ctx context.Context, body *AnalyticsBreakdo
 // Compare: Compare metrics grouped by platform, account, campaign, cross-campaign or date (POST /v1/analytics/compare).
 func (s *AnalyticsService) Compare(ctx context.Context, body *AnalyticsCompareRequest, opts ...CallOption) (*AnalyticsCompareResponse, error) {
 	out := new(AnalyticsCompareResponse)
-	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/compare"), query: nil, idem: true, dry: false, noAuth: false}, body, opts, out); err != nil {
+	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/compare"), query: nil, idem: false, dry: false, noAuth: false}, body, opts, out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -467,7 +467,7 @@ func (s *AnalyticsService) Compare(ctx context.Context, body *AnalyticsCompareRe
 // Forecast: Forecast spend, conversions and value for N days (seasonal naive or Holt); needs 14+ days (POST /v1/analytics/forecast).
 func (s *AnalyticsService) Forecast(ctx context.Context, body *AnalyticsForecastRequest, opts ...CallOption) (*AnalyticsForecastResponse, error) {
 	out := new(AnalyticsForecastResponse)
-	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/forecast"), query: nil, idem: true, dry: false, noAuth: false}, body, opts, out); err != nil {
+	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/forecast"), query: nil, idem: false, dry: false, noAuth: false}, body, opts, out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -476,7 +476,7 @@ func (s *AnalyticsService) Forecast(ctx context.Context, body *AnalyticsForecast
 // Pacing: Budget pacing: spend vs expected to date, projected end, on_track/under/over (5% default) (POST /v1/analytics/pacing).
 func (s *AnalyticsService) Pacing(ctx context.Context, body *AnalyticsPacingRequest, opts ...CallOption) (*AnalyticsPacingResponse, error) {
 	out := new(AnalyticsPacingResponse)
-	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/pacing"), query: nil, idem: true, dry: false, noAuth: false}, body, opts, out); err != nil {
+	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/pacing"), query: nil, idem: false, dry: false, noAuth: false}, body, opts, out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -485,7 +485,7 @@ func (s *AnalyticsService) Pacing(ctx context.Context, body *AnalyticsPacingRequ
 // Reallocation: Advisory budget reallocation equalizing marginal ROAS at the same total; never writes (POST /v1/analytics/reallocation).
 func (s *AnalyticsService) Reallocation(ctx context.Context, body *AnalyticsReallocationRequest, opts ...CallOption) (*AnalyticsReallocationResponse, error) {
 	out := new(AnalyticsReallocationResponse)
-	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/reallocation"), query: nil, idem: true, dry: false, noAuth: false}, body, opts, out); err != nil {
+	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/reallocation"), query: nil, idem: false, dry: false, noAuth: false}, body, opts, out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -494,7 +494,7 @@ func (s *AnalyticsService) Reallocation(ctx context.Context, body *AnalyticsReal
 // Saturation: Diminishing-returns fit per platform or campaign with marginal ROAS and a confidence flag (POST /v1/analytics/saturation).
 func (s *AnalyticsService) Saturation(ctx context.Context, body *AnalyticsSaturationRequest, opts ...CallOption) (*AnalyticsSaturationResponse, error) {
 	out := new(AnalyticsSaturationResponse)
-	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/saturation"), query: nil, idem: true, dry: false, noAuth: false}, body, opts, out); err != nil {
+	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/saturation"), query: nil, idem: false, dry: false, noAuth: false}, body, opts, out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -503,7 +503,7 @@ func (s *AnalyticsService) Saturation(ctx context.Context, body *AnalyticsSatura
 // Synergy: Blended MER, platform overlap and assists, lagged spend correlation (not causal) (POST /v1/analytics/synergy).
 func (s *AnalyticsService) Synergy(ctx context.Context, body *AnalyticsSynergyRequest, opts ...CallOption) (*AnalyticsSynergyResponse, error) {
 	out := new(AnalyticsSynergyResponse)
-	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/synergy"), query: nil, idem: true, dry: false, noAuth: false}, body, opts, out); err != nil {
+	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/synergy"), query: nil, idem: false, dry: false, noAuth: false}, body, opts, out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -512,7 +512,7 @@ func (s *AnalyticsService) Synergy(ctx context.Context, body *AnalyticsSynergyRe
 // Timeseries: Daily metrics for entities over a date range, in the reporting currency (POST /v1/analytics/timeseries).
 func (s *AnalyticsService) Timeseries(ctx context.Context, body *AnalyticsTimeseriesRequest, opts ...CallOption) (*AnalyticsTimeseriesResponse, error) {
 	out := new(AnalyticsTimeseriesResponse)
-	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/timeseries"), query: nil, idem: true, dry: false, noAuth: false}, body, opts, out); err != nil {
+	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/analytics/timeseries"), query: nil, idem: false, dry: false, noAuth: false}, body, opts, out); err != nil {
 		return nil, err
 	}
 	return out, nil
