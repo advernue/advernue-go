@@ -320,15 +320,10 @@ type param struct {
 	typ              string
 }
 
-type operation struct {
-	id, tag, name, method, path, summary string
-}
-
 func (g *gen) services(spec schema) []byte {
 	paths := spec["paths"].(schema)
 	byTag := map[string][]string{}
 	var body bytes.Buffer
-	var ops []operation
 	for _, p := range keys(paths) {
 		item := paths[p].(schema)
 		for _, m := range []string{"get", "post", "put", "patch", "delete"} {
@@ -341,8 +336,6 @@ func (g *gen) services(spec schema) []byte {
 			opName := pascal(strings.SplitN(id, ".", 2)[1])
 			svc := pascal(tag)
 			byTag[svc] = append(byTag[svc], opName)
-			sum, _ := o["summary"].(string)
-			ops = append(ops, operation{id, tag, opName, strings.ToUpper(m), p, sum})
 			g.emitOp(&body, svc, opName, strings.ToUpper(m), p, o)
 		}
 	}
