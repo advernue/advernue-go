@@ -183,24 +183,18 @@ type CampaignBudgetAmount struct {
 }
 
 type CampaignBrief struct {
-	AcceptUnknownSpec *bool                        `json:"acceptUnknownSpec,omitempty"`
-	Creatives         []CampaignBriefCreativesItem `json:"creatives"`
-	// tagged with utm and adv_cid on launch
-	DestinationURL string `json:"destinationUrl"`
-	// must be >= startAt
-	EndAt     *string `json:"endAt,omitempty"`
-	Name      string  `json:"name"`
-	Objective string  `json:"objective"`
-	// platformNative-style extras per platform
+	AcceptUnknownSpec *bool                                          `json:"acceptUnknownSpec,omitempty"`
+	Creatives         []CampaignBriefCreativesItem                   `json:"creatives"`
+	DestinationURL    string                                         `json:"destinationUrl"`
+	EndAt             *string                                        `json:"endAt,omitempty"`
+	Name              string                                         `json:"name"`
+	Objective         string                                         `json:"objective"`
 	PlatformOverrides map[string]CampaignBriefPlatformOverridesValue `json:"platformOverrides,omitempty"`
-	// how totalBudget is divided across targets
-	Split json.RawMessage `json:"split"`
-	// ISO-8601 with Z or an offset; normalised to UTC
-	StartAt   *string                `json:"startAt,omitempty"`
-	Targeting CampaignBriefTargeting `json:"targeting"`
-	// ad account ids of one client, no duplicates
-	Targets     []string `json:"targets"`
-	TotalBudget Budget   `json:"totalBudget"`
+	Split             json.RawMessage                                `json:"split"`
+	StartAt           *string                                        `json:"startAt,omitempty"`
+	Targeting         CampaignBriefTargeting                         `json:"targeting"`
+	Targets           []string                                       `json:"targets"`
+	TotalBudget       CampaignBriefTotalBudget                       `json:"totalBudget"`
 }
 
 type CampaignBriefCreativesItem struct {
@@ -224,9 +218,20 @@ type CampaignBriefCreativesItemAssetsItem struct {
 }
 
 type CampaignBriefPlatformOverridesValue struct {
-	AdGroup  json.RawMessage `json:"adGroup,omitempty"`
-	Bid      *Bid            `json:"bid,omitempty"`
-	Campaign json.RawMessage `json:"campaign,omitempty"`
+	AdGroup  json.RawMessage                         `json:"adGroup,omitempty"`
+	Bid      *CampaignBriefPlatformOverridesValueBid `json:"bid,omitempty"`
+	Campaign json.RawMessage                         `json:"campaign,omitempty"`
+}
+
+type CampaignBriefPlatformOverridesValueBid struct {
+	Amount     *CampaignBriefPlatformOverridesValueBidAmount `json:"amount,omitempty"`
+	Strategy   string                                        `json:"strategy"`
+	TargetRoas *float64                                      `json:"targetRoas,omitempty"`
+}
+
+type CampaignBriefPlatformOverridesValueBidAmount struct {
+	Currency string `json:"currency"`
+	Micros   int64  `json:"micros"`
 }
 
 type CampaignBriefTargeting struct {
@@ -242,6 +247,16 @@ type CampaignBriefTargeting struct {
 	Languages   []string `json:"languages,omitempty"`
 	Placements  []string `json:"placements,omitempty"`
 	Regions     []string `json:"regions,omitempty"`
+}
+
+type CampaignBriefTotalBudget struct {
+	Amount CampaignBriefTotalBudgetAmount `json:"amount"`
+	Type   string                         `json:"type"`
+}
+
+type CampaignBriefTotalBudgetAmount struct {
+	Currency string `json:"currency"`
+	Micros   int64  `json:"micros"`
 }
 
 type Connection struct {
@@ -596,17 +611,14 @@ type AlertsResolveResponse struct {
 }
 
 type AnalyticsBreakdownRequest struct {
-	// Split each value by platform (default: merge).
-	ByPlatform *bool   `json:"byPlatform,omitempty"`
-	ClientID   *string `json:"clientId,omitempty"`
-	// Reporting currency (ISO-4217).
-	Currency *string `json:"currency,omitempty"`
-	// geo_country (ISO-3166 alpha-2 or "unknown"), device (desktop|mobile|tablet|ctv|other), placement, creative, ad, age, gender, hour (00-23). Only platforms that report a dimension contribute rows.
-	Dimension string   `json:"dimension"`
-	From      string   `json:"from"`
-	Limit     *int64   `json:"limit,omitempty"`
-	Platforms []string `json:"platforms,omitempty"`
-	To        string   `json:"to"`
+	ByPlatform *bool    `json:"byPlatform,omitempty"`
+	ClientID   *string  `json:"clientId,omitempty"`
+	Currency   *string  `json:"currency,omitempty"`
+	Dimension  string   `json:"dimension"`
+	From       string   `json:"from"`
+	Limit      *int64   `json:"limit,omitempty"`
+	Platforms  []string `json:"platforms,omitempty"`
+	To         string   `json:"to"`
 }
 
 type AnalyticsBreakdownResponse struct {
@@ -752,12 +764,11 @@ type AnalyticsForecastRequest struct {
 	CampaignID      *string `json:"campaignId,omitempty"`
 	ClientID        *string `json:"clientId,omitempty"`
 	CrossCampaignID *string `json:"crossCampaignId,omitempty"`
-	// Reporting currency; default: the client one
-	Currency    *string `json:"currency,omitempty"`
-	GroupBy     string  `json:"groupBy"`
-	HistoryDays *int64  `json:"historyDays,omitempty"`
-	HorizonDays *int64  `json:"horizonDays,omitempty"`
-	Platform    *string `json:"platform,omitempty"`
+	Currency        *string `json:"currency,omitempty"`
+	GroupBy         string  `json:"groupBy"`
+	HistoryDays     *int64  `json:"historyDays,omitempty"`
+	HorizonDays     *int64  `json:"horizonDays,omitempty"`
+	Platform        *string `json:"platform,omitempty"`
 }
 
 type AnalyticsForecastResponse struct {
@@ -924,14 +935,13 @@ type AnalyticsForecastResponseResultsItemSpendTotalValue struct {
 }
 
 type AnalyticsPacingRequest struct {
-	AsOf            *string `json:"asOf,omitempty"`
-	CampaignID      *string `json:"campaignId,omitempty"`
-	ClientID        *string `json:"clientId,omitempty"`
-	CrossCampaignID *string `json:"crossCampaignId,omitempty"`
-	// Reporting currency; default: the client one
-	Currency  *string  `json:"currency,omitempty"`
-	Platform  *string  `json:"platform,omitempty"`
-	Tolerance *float64 `json:"tolerance,omitempty"`
+	AsOf            *string  `json:"asOf,omitempty"`
+	CampaignID      *string  `json:"campaignId,omitempty"`
+	ClientID        *string  `json:"clientId,omitempty"`
+	CrossCampaignID *string  `json:"crossCampaignId,omitempty"`
+	Currency        *string  `json:"currency,omitempty"`
+	Platform        *string  `json:"platform,omitempty"`
+	Tolerance       *float64 `json:"tolerance,omitempty"`
 }
 
 type AnalyticsPacingResponse struct {
@@ -1053,10 +1063,9 @@ type AnalyticsPacingResponseSkippedItem struct {
 }
 
 type AnalyticsReallocationRequest struct {
-	CampaignID      *string `json:"campaignId,omitempty"`
-	ClientID        *string `json:"clientId,omitempty"`
-	CrossCampaignID *string `json:"crossCampaignId,omitempty"`
-	// Reporting currency; default: the client one
+	CampaignID       *string                                       `json:"campaignId,omitempty"`
+	ClientID         *string                                       `json:"clientId,omitempty"`
+	CrossCampaignID  *string                                       `json:"crossCampaignId,omitempty"`
 	Currency         *string                                       `json:"currency,omitempty"`
 	From             string                                        `json:"from"`
 	MaxFactor        *float64                                      `json:"maxFactor,omitempty"`
@@ -1143,12 +1152,11 @@ type AnalyticsSaturationRequest struct {
 	CampaignID      *string `json:"campaignId,omitempty"`
 	ClientID        *string `json:"clientId,omitempty"`
 	CrossCampaignID *string `json:"crossCampaignId,omitempty"`
-	// Reporting currency; default: the client one
-	Currency *string `json:"currency,omitempty"`
-	From     string  `json:"from"`
-	GroupBy  *string `json:"groupBy,omitempty"`
-	Platform *string `json:"platform,omitempty"`
-	To       string  `json:"to"`
+	Currency        *string `json:"currency,omitempty"`
+	From            string  `json:"from"`
+	GroupBy         *string `json:"groupBy,omitempty"`
+	Platform        *string `json:"platform,omitempty"`
+	To              string  `json:"to"`
 }
 
 type AnalyticsSaturationResponse struct {
@@ -1200,14 +1208,13 @@ type AnalyticsSynergyRequest struct {
 	CampaignID      *string `json:"campaignId,omitempty"`
 	ClientID        *string `json:"clientId,omitempty"`
 	CrossCampaignID *string `json:"crossCampaignId,omitempty"`
-	// Reporting currency; default: the client one
-	Currency     *string `json:"currency,omitempty"`
-	From         string  `json:"from"`
-	LookbackDays *int64  `json:"lookbackDays,omitempty"`
-	MaxLag       *int64  `json:"maxLag,omitempty"`
-	MaxPlatforms *int64  `json:"maxPlatforms,omitempty"`
-	Platform     *string `json:"platform,omitempty"`
-	To           string  `json:"to"`
+	Currency        *string `json:"currency,omitempty"`
+	From            string  `json:"from"`
+	LookbackDays    *int64  `json:"lookbackDays,omitempty"`
+	MaxLag          *int64  `json:"maxLag,omitempty"`
+	MaxPlatforms    *int64  `json:"maxPlatforms,omitempty"`
+	Platform        *string `json:"platform,omitempty"`
+	To              string  `json:"to"`
 }
 
 type AnalyticsSynergyResponse struct {
@@ -1491,16 +1498,14 @@ type ApproversRegisterSelfResponse struct {
 }
 
 type AudiencesCreateListRequest struct {
-	ClientID           *string                           `json:"clientId,omitempty"`
-	Consent            AudiencesCreateListRequestConsent `json:"consent"`
-	DefaultCountryCode *string                           `json:"defaultCountryCode,omitempty"`
-	Name               string                            `json:"name"`
-	// raw contacts; hashed on receipt, never stored or returned in clear
-	Rows []AudiencesCreateListRequestRowsItem `json:"rows"`
+	ClientID           *string                              `json:"clientId,omitempty"`
+	Consent            AudiencesCreateListRequestConsent    `json:"consent"`
+	DefaultCountryCode *string                              `json:"defaultCountryCode,omitempty"`
+	Name               string                               `json:"name"`
+	Rows               []AudiencesCreateListRequestRowsItem `json:"rows"`
 }
 
 type AudiencesCreateListRequestConsent struct {
-	// where the consent comes from
 	Basis     string `json:"basis"`
 	Confirmed bool   `json:"confirmed"`
 }
@@ -1546,12 +1551,11 @@ type AudiencesCreateListResponseRejectedItem struct {
 }
 
 type AudiencesCreateLookalikeRequest struct {
-	AdAccountID string   `json:"adAccountId"`
-	Countries   []string `json:"countries"`
-	Name        string   `json:"name"`
-	// 0.01 is the closest 1%
-	Ratio            float64 `json:"ratio"`
-	SourceAudienceID string  `json:"sourceAudienceId"`
+	AdAccountID      string   `json:"adAccountId"`
+	Countries        []string `json:"countries"`
+	Name             string   `json:"name"`
+	Ratio            float64  `json:"ratio"`
+	SourceAudienceID string   `json:"sourceAudienceId"`
 }
 
 type AudiencesCreateLookalikeResponse struct {
@@ -1583,14 +1587,12 @@ type AudiencesCreateLookalikeResponseAudienceConsent struct {
 }
 
 type AudiencesAddMembersRequest struct {
-	Consent            AudiencesAddMembersRequestConsent `json:"consent"`
-	DefaultCountryCode *string                           `json:"defaultCountryCode,omitempty"`
-	// raw contacts; hashed on receipt, never stored or returned in clear
-	Rows []AudiencesAddMembersRequestRowsItem `json:"rows"`
+	Consent            AudiencesAddMembersRequestConsent    `json:"consent"`
+	DefaultCountryCode *string                              `json:"defaultCountryCode,omitempty"`
+	Rows               []AudiencesAddMembersRequestRowsItem `json:"rows"`
 }
 
 type AudiencesAddMembersRequestConsent struct {
-	// where the consent comes from
 	Basis     string `json:"basis"`
 	Confirmed bool   `json:"confirmed"`
 }
@@ -1636,9 +1638,8 @@ type AudiencesAddMembersResponseRejectedItem struct {
 }
 
 type AudiencesRemoveMembersRequest struct {
-	DefaultCountryCode *string `json:"defaultCountryCode,omitempty"`
-	// raw contacts; hashed on receipt, never stored or returned in clear
-	Rows []AudiencesRemoveMembersRequestRowsItem `json:"rows"`
+	DefaultCountryCode *string                                 `json:"defaultCountryCode,omitempty"`
+	Rows               []AudiencesRemoveMembersRequestRowsItem `json:"rows"`
 }
 
 type AudiencesRemoveMembersRequestRowsItem struct {
@@ -1911,11 +1912,9 @@ type BrandingGetResponse struct {
 }
 
 type BrandingSetRequest struct {
-	AccentColor string `json:"accentColor"`
-	// Hostname; informational (DNS is not managed).
+	AccentColor  string  `json:"accentColor"`
 	CustomDomain *string `json:"customDomain,omitempty"`
 	FromName     *string `json:"fromName,omitempty"`
-	// data:image/(png|jpeg|webp|gif);base64 URI, ~250 KB max.
 	LogoURL      *string `json:"logoUrl,omitempty"`
 	Name         string  `json:"name"`
 	PrimaryColor string  `json:"primaryColor"`
@@ -2014,17 +2013,15 @@ type ClientsUpdateResponse struct {
 }
 
 type ConnectionsCreateRequest struct {
-	// write-only; fields depend on the platform (see platforms catalog credentialFields)
 	Credentials json.RawMessage `json:"credentials"`
 	Label       string          `json:"label"`
-	Platform    Platform        `json:"platform"`
+	Platform    string          `json:"platform"`
 }
 
 type ConnectionsCreateWithCredentialsRequest struct {
-	// write-only; fields depend on the platform (see platforms catalog credentialFields)
 	Credentials json.RawMessage `json:"credentials"`
 	Label       string          `json:"label"`
-	Platform    Platform        `json:"platform"`
+	Platform    string          `json:"platform"`
 }
 
 type ConnectionsOauthCallbackRequest struct {
@@ -2072,25 +2069,19 @@ type ConversionsRequeueRequest struct {
 }
 
 type ConversionsSetIntegrationRequest struct {
-	// destination ids only: pixelId, conversionActionId or pixelCode
-	Config  json.RawMessage `json:"config"`
-	Enabled bool            `json:"enabled"`
-	// default purchase, lead
-	EventTypes []string `json:"eventTypes,omitempty"`
+	Config     json.RawMessage `json:"config"`
+	Enabled    bool            `json:"enabled"`
+	EventTypes []string        `json:"eventTypes,omitempty"`
 }
 
 type ConversionsSendRequest struct {
-	AdAccountIds []string `json:"adAccountIds,omitempty"`
-	// required when userData has contact details
-	Consent *bool `json:"consent,omitempty"`
-	// event_id or stored row id
-	EventID   string  `json:"eventId"`
-	SourceURL *string `json:"sourceUrl,omitempty"`
-	// raw identifiers; hashed immediately, never stored or returned
-	UserData *ConversionsSendRequestUserData `json:"userData,omitempty"`
+	AdAccountIds []string                        `json:"adAccountIds,omitempty"`
+	Consent      *bool                           `json:"consent,omitempty"`
+	EventID      string                          `json:"eventId"`
+	SourceURL    *string                         `json:"sourceUrl,omitempty"`
+	UserData     *ConversionsSendRequestUserData `json:"userData,omitempty"`
 }
 
-// ConversionsSendRequestUserData - raw identifiers; hashed immediately, never stored or returned
 type ConversionsSendRequestUserData struct {
 	DefaultCountryCode *string `json:"defaultCountryCode,omitempty"`
 	Email              *string `json:"email,omitempty"`
@@ -2132,8 +2123,7 @@ type CreativeLibraryResizeRequest struct {
 	Focal      *CreativeLibraryResizeRequestFocal `json:"focal,omitempty"`
 	Mode       *string                            `json:"mode,omitempty"`
 	Placements []string                           `json:"placements,omitempty"`
-	// default meta, google_ads, tiktok
-	Platforms []string `json:"platforms,omitempty"`
+	Platforms  []string                           `json:"platforms,omitempty"`
 }
 
 type CreativeLibraryResizeRequestFocal struct {
@@ -2201,8 +2191,7 @@ type CreativeLibraryPlanResizeRequest struct {
 	Focal      *CreativeLibraryPlanResizeRequestFocal `json:"focal,omitempty"`
 	Mode       *string                                `json:"mode,omitempty"`
 	Placements []string                               `json:"placements,omitempty"`
-	// default meta, google_ads, tiktok
-	Platforms []string `json:"platforms,omitempty"`
+	Platforms  []string                               `json:"platforms,omitempty"`
 }
 
 type CreativeLibraryPlanResizeRequestFocal struct {
@@ -2335,9 +2324,8 @@ type InvitesListResponseItem struct {
 }
 
 type InvitesCreateRequest struct {
-	ClientID *string `json:"clientId,omitempty"`
-	Email    string  `json:"email"`
-	// manager and viewer only.
+	ClientID    *string  `json:"clientId,omitempty"`
+	Email       string   `json:"email"`
 	Permissions []string `json:"permissions,omitempty"`
 	Role        string   `json:"role"`
 }
@@ -2499,7 +2487,6 @@ type NotificationsCreateChannelRequest struct {
 	Config json.RawMessage `json:"config,omitempty"`
 	Kind   string          `json:"kind"`
 	Name   string          `json:"name"`
-	// Write-only: urls, passwords, signing secrets. Never returned; see hasSecret.
 	Secret json.RawMessage `json:"secret"`
 }
 
@@ -2519,12 +2506,10 @@ type NotificationsCreateChannelResponse struct {
 }
 
 type NotificationsUpdateChannelRequest struct {
-	// Changing config requires `secret` again.
 	Config  json.RawMessage `json:"config,omitempty"`
 	Enabled *bool           `json:"enabled,omitempty"`
 	Name    *string         `json:"name,omitempty"`
-	// Write-only: urls, passwords, signing secrets. Never returned; see hasSecret.
-	Secret json.RawMessage `json:"secret,omitempty"`
+	Secret  json.RawMessage `json:"secret,omitempty"`
 }
 
 type NotificationsUpdateChannelResponse struct {
@@ -2771,7 +2756,6 @@ type ReportTemplatesCreateRequest struct {
 }
 
 type ReportTemplatesCreateRequestSectionsItem struct {
-	// Row cap for ranked tables.
 	Limit *int64  `json:"limit,omitempty"`
 	Title *string `json:"title,omitempty"`
 	Type  string  `json:"type"`
@@ -2793,7 +2777,6 @@ type ReportTemplatesUpdateRequest struct {
 }
 
 type ReportTemplatesUpdateRequestSectionsItem struct {
-	// Row cap for ranked tables.
 	Limit *int64  `json:"limit,omitempty"`
 	Title *string `json:"title,omitempty"`
 	Type  string  `json:"type"`
@@ -2824,9 +2807,8 @@ type ReportsListResponseItem struct {
 }
 
 type ReportsGenerateRequest struct {
-	ClientID string `json:"clientId"`
-	From     string `json:"from"`
-	// Default: all sections.
+	ClientID   string  `json:"clientId"`
+	From       string  `json:"from"`
 	TemplateID *string `json:"templateId,omitempty"`
 	Title      *string `json:"title,omitempty"`
 	To         string  `json:"to"`
@@ -2983,23 +2965,16 @@ type RevenueImportCsvResponse struct {
 }
 
 type RevenueCreateIntegrationRequest struct {
-	// shopify, for backfill
-	AccessToken *string `json:"accessToken,omitempty"`
-	// stripe restricted read key, for backfill
-	APIKey *string `json:"apiKey,omitempty"`
-	// woocommerce store URL
-	BaseURL  *string `json:"baseUrl,omitempty"`
-	ClientID *string `json:"clientId,omitempty"`
-	// woocommerce
-	ConsumerKey *string `json:"consumerKey,omitempty"`
-	// woocommerce
+	AccessToken    *string `json:"accessToken,omitempty"`
+	APIKey         *string `json:"apiKey,omitempty"`
+	BaseURL        *string `json:"baseUrl,omitempty"`
+	ClientID       *string `json:"clientId,omitempty"`
+	ConsumerKey    *string `json:"consumerKey,omitempty"`
 	ConsumerSecret *string `json:"consumerSecret,omitempty"`
 	Kind           string  `json:"kind"`
 	Label          string  `json:"label"`
-	// shopify, for backfill
-	ShopDomain *string `json:"shopDomain,omitempty"`
-	// Shopify client secret, Stripe whsec_, Woo secret
-	WebhookSecret string `json:"webhookSecret"`
+	ShopDomain     *string `json:"shopDomain,omitempty"`
+	WebhookSecret  string  `json:"webhookSecret"`
 }
 
 type RevenueBackfillRequest struct {
@@ -3030,8 +3005,7 @@ type RulesListResponseItem struct {
 }
 
 type RulesCreateRequest struct {
-	ClientID *string `json:"clientId,omitempty"`
-	// Must match the guardrail or automation schema for `kind`.
+	ClientID   *string         `json:"clientId,omitempty"`
 	Definition json.RawMessage `json:"definition"`
 	Enabled    *bool           `json:"enabled,omitempty"`
 	Kind       string          `json:"kind"`
@@ -3057,48 +3031,46 @@ type RulesCreateResponse struct {
 
 type RulesSimulateRequest struct {
 	// default 30
-	Days *int64 `json:"days,omitempty"`
-	// automation rule definition
+	Days       *int64                          `json:"days,omitempty"`
 	Definition *RulesSimulateRequestDefinition `json:"definition,omitempty"`
 	// give ruleId or definition
 	RuleID *string `json:"ruleId,omitempty"`
 }
 
-// RulesSimulateRequestDefinition - automation rule definition
 type RulesSimulateRequestDefinition struct {
 	Action          json.RawMessage                                `json:"action"`
 	At              *RulesSimulateRequestDefinitionAt              `json:"at,omitempty"`
 	Conditions      []RulesSimulateRequestDefinitionConditionsItem `json:"conditions"`
 	Level           string                                         `json:"level"`
-	MinSpendForEval *Money                                         `json:"minSpendForEval,omitempty"`
+	MinSpendForEval *RulesSimulateRequestDefinitionMinSpendForEval `json:"minSpendForEval,omitempty"`
 	Schedule        string                                         `json:"schedule"`
 	Scope           RulesSimulateRequestDefinitionScope            `json:"scope"`
 }
 
 type RulesSimulateRequestDefinitionAt struct {
-	// default 6
-	Hour *int64 `json:"hour,omitempty"`
-	// default 0
-	Minute *int64 `json:"minute,omitempty"`
-	// IANA zone; default UTC
+	Hour     *int64  `json:"hour,omitempty"`
+	Minute   *int64  `json:"minute,omitempty"`
 	Timezone *string `json:"timezone,omitempty"`
-	// 0 = Sunday; weekly only; default 1
-	Weekday *int64 `json:"weekday,omitempty"`
+	Weekday  *int64  `json:"weekday,omitempty"`
 }
 
 type RulesSimulateRequestDefinitionConditionsItem struct {
-	Metric string `json:"metric"`
-	Op     string `json:"op"`
-	// money metrics in the entity currency, major units
+	Metric     string  `json:"metric"`
+	Op         string  `json:"op"`
 	Value      float64 `json:"value"`
 	WindowDays int64   `json:"windowDays"`
 }
 
+type RulesSimulateRequestDefinitionMinSpendForEval struct {
+	Currency string `json:"currency"`
+	Micros   int64  `json:"micros"`
+}
+
 type RulesSimulateRequestDefinitionScope struct {
-	AdAccountID *string   `json:"adAccountId,omitempty"`
-	CampaignID  *string   `json:"campaignId,omitempty"`
-	ClientID    *string   `json:"clientId,omitempty"`
-	Platform    *Platform `json:"platform,omitempty"`
+	AdAccountID *string `json:"adAccountId,omitempty"`
+	CampaignID  *string `json:"campaignId,omitempty"`
+	ClientID    *string `json:"clientId,omitempty"`
+	Platform    *string `json:"platform,omitempty"`
 }
 
 type RulesSimulateResponse struct {
@@ -3202,14 +3174,10 @@ type RulesSetScheduleRequest struct {
 }
 
 type RulesSetScheduleRequestAt struct {
-	// default 6
-	Hour *int64 `json:"hour,omitempty"`
-	// default 0
-	Minute *int64 `json:"minute,omitempty"`
-	// IANA zone; default UTC
+	Hour     *int64  `json:"hour,omitempty"`
+	Minute   *int64  `json:"minute,omitempty"`
 	Timezone *string `json:"timezone,omitempty"`
-	// 0 = Sunday; weekly only; default 1
-	Weekday *int64 `json:"weekday,omitempty"`
+	Weekday  *int64  `json:"weekday,omitempty"`
 }
 
 type RulesSetScheduleResponse struct {
@@ -3259,8 +3227,7 @@ type SavedViewsCreateResponse struct {
 }
 
 type SecuritySetPolicyRequest struct {
-	APIKeyMaxAgeDays *int64 `json:"apiKeyMaxAgeDays,omitempty"`
-	// per dataset: a number sets the days kept, null clears it
+	APIKeyMaxAgeDays   *int64           `json:"apiKeyMaxAgeDays,omitempty"`
 	Retention          map[string]int64 `json:"retention,omitempty"`
 	SessionIdleMinutes *int64           `json:"sessionIdleMinutes,omitempty"`
 	SessionTtlHours    *int64           `json:"sessionTtlHours,omitempty"`
@@ -3307,9 +3274,8 @@ type AdAccountsSyncResponseSyncDriftItem struct {
 
 type TrackingCreateIngestKeyRequest struct {
 	ClientID *string `json:"clientId,omitempty"`
-	// default public
-	Kind  *string `json:"kind,omitempty"`
-	Label string  `json:"label"`
+	Kind     *string `json:"kind,omitempty"`
+	Label    string  `json:"label"`
 }
 
 type TrackingGetSettingsResponse struct {

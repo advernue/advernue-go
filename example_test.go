@@ -33,7 +33,7 @@ func Example_crossPlatformLaunch() {
 		Objective:      "traffic",
 		DestinationURL: "https://example.com/sale",
 		Targets:        []string{"acc_google", "acc_meta"},
-		TotalBudget:    advernue.Budget{Type: "daily", Amount: advernue.MustMoney("100", "USD")},
+		TotalBudget:    advernue.CampaignBriefTotalBudget{Type: "daily", Amount: advernue.CampaignBriefTotalBudgetAmount{Currency: "USD", Micros: 100_000_000}},
 		Split:          []byte(`{"type":"equal"}`),
 		Targeting:      advernue.CampaignBriefTargeting{Countries: []string{"US"}},
 		Creatives:      []advernue.CampaignBriefCreativesItem{},
