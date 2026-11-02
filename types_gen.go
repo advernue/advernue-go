@@ -503,6 +503,21 @@ type Targeting struct {
 	Regions     []string `json:"regions,omitempty"`
 }
 
+type OpsHealthResponse struct {
+	Ok bool `json:"ok"`
+}
+
+type OpsReadyResponse struct {
+	Checks map[string]OpsReadyResponseChecksValue `json:"checks"`
+	Ok     bool                                   `json:"ok"`
+}
+
+type OpsReadyResponseChecksValue struct {
+	Detail *string `json:"detail,omitempty"`
+	Ms     float64 `json:"ms"`
+	Ok     bool    `json:"ok"`
+}
+
 type AdAccountsManageRequest struct {
 	ClientID string `json:"clientId"`
 	Managed  bool   `json:"managed"`
@@ -1689,58 +1704,12 @@ type SecurityVerifyAuditResponseFirstBroken struct {
 	Seq int64  `json:"seq"`
 }
 
-type InvitesAcceptRequest struct {
-	Name     *string `json:"name,omitempty"`
-	Password string  `json:"password"`
-	Token    string  `json:"token"`
-}
-
-type InvitesAcceptResponse struct {
-	// Send as X-CSRF-Token on cookie-authenticated writes.
-	CsrfToken string `json:"csrfToken"`
-	// ISO-8601 timestamp
-	ExpiresAt   string                    `json:"expiresAt"`
-	User        InvitesAcceptResponseUser `json:"user"`
-	WorkspaceID string                    `json:"workspaceId"`
-}
-
-type InvitesAcceptResponseUser struct {
-	// ISO-8601 timestamp
-	CreatedAt string `json:"createdAt"`
-	Email     string `json:"email"`
-	ID        string `json:"id"`
-	Name      string `json:"name"`
-}
-
 type InvitesPreviewResponse struct {
 	Email string `json:"email"`
-	// True: sign in as that account, then accept (no password is taken).
+	// True: the invitee already has an account and signs in with it through Atlas.
 	ExistingAccount bool   `json:"existingAccount"`
 	Role            string `json:"role"`
 	WorkspaceName   string `json:"workspaceName"`
-}
-
-type AuthLoginRequest struct {
-	Email       string  `json:"email"`
-	Password    string  `json:"password"`
-	WorkspaceID *string `json:"workspaceId,omitempty"`
-}
-
-type AuthLoginResponse struct {
-	// Send as X-CSRF-Token on cookie-authenticated writes.
-	CsrfToken string `json:"csrfToken"`
-	// ISO-8601 timestamp
-	ExpiresAt   string                `json:"expiresAt"`
-	User        AuthLoginResponseUser `json:"user"`
-	WorkspaceID string                `json:"workspaceId"`
-}
-
-type AuthLoginResponseUser struct {
-	// ISO-8601 timestamp
-	CreatedAt string `json:"createdAt"`
-	Email     string `json:"email"`
-	ID        string `json:"id"`
-	Name      string `json:"name"`
 }
 
 type AuthMeResponse struct {
@@ -1765,30 +1734,6 @@ type AuthMeResponseUser struct {
 	Email string `json:"email"`
 	ID    string `json:"id"`
 	Name  string `json:"name"`
-}
-
-type AuthRegisterRequest struct {
-	Email         string `json:"email"`
-	Name          string `json:"name"`
-	Password      string `json:"password"`
-	WorkspaceName string `json:"workspaceName"`
-}
-
-type AuthRegisterResponse struct {
-	// Send as X-CSRF-Token on cookie-authenticated writes.
-	CsrfToken string `json:"csrfToken"`
-	// ISO-8601 timestamp
-	ExpiresAt   string                   `json:"expiresAt"`
-	User        AuthRegisterResponseUser `json:"user"`
-	WorkspaceID string                   `json:"workspaceId"`
-}
-
-type AuthRegisterResponseUser struct {
-	// ISO-8601 timestamp
-	CreatedAt string `json:"createdAt"`
-	Email     string `json:"email"`
-	ID        string `json:"id"`
-	Name      string `json:"name"`
 }
 
 type AuthSwitchWorkspaceRequest struct {
@@ -2301,6 +2246,21 @@ type FxListResponseItem struct {
 	Rate  float64 `json:"rate"`
 }
 
+type OperatorLoadFxRatesRequest struct {
+	Rates []OperatorLoadFxRatesRequestRatesItem `json:"rates"`
+}
+
+type OperatorLoadFxRatesRequestRatesItem struct {
+	Base  string  `json:"base"`
+	Date  string  `json:"date"`
+	Quote string  `json:"quote"`
+	Rate  float64 `json:"rate"`
+}
+
+type OperatorLoadFxRatesResponse struct {
+	Count int64 `json:"count"`
+}
+
 type ApprovalLinksSlackInteractionResponse struct {
 	ReplaceOriginal bool   `json:"replace_original"`
 	ResponseType    string `json:"response_type"`
@@ -2606,6 +2566,45 @@ type NotificationsCreateRouteResponse struct {
 	WorkspaceID string   `json:"workspaceId"`
 }
 
+// PlatformPlatformConfigResponse - A platform is null unless all its ids are set. Never secrets.
+type PlatformPlatformConfigResponse struct {
+	Atlas       *PlatformPlatformConfigResponseAtlas       `json:"atlas,omitempty"`
+	Chatly      *PlatformPlatformConfigResponseChatly      `json:"chatly,omitempty"`
+	Cookiemunch *PlatformPlatformConfigResponseCookiemunch `json:"cookiemunch,omitempty"`
+	Forumulate  *PlatformPlatformConfigResponseForumulate  `json:"forumulate,omitempty"`
+	Referalli   *PlatformPlatformConfigResponseReferalli   `json:"referalli,omitempty"`
+	Seolyticize *PlatformPlatformConfigResponseSeolyticize `json:"seolyticize,omitempty"`
+	// Whether Atlas sign-in may create a workspace for a person with no invite.
+	Signup bool `json:"signup"`
+}
+
+type PlatformPlatformConfigResponseAtlas struct {
+	ClientID string `json:"clientId"`
+	Issuer   string `json:"issuer"`
+}
+
+type PlatformPlatformConfigResponseChatly struct {
+	PublicID string `json:"publicId"`
+}
+
+type PlatformPlatformConfigResponseCookiemunch struct {
+	Cbid string `json:"cbid"`
+}
+
+type PlatformPlatformConfigResponseForumulate struct {
+	Base string `json:"base"`
+}
+
+type PlatformPlatformConfigResponseReferalli struct {
+	ProgramID string `json:"programId"`
+	PublicKey string `json:"publicKey"`
+}
+
+type PlatformPlatformConfigResponseSeolyticize struct {
+	SiteID  string `json:"siteId"`
+	SiteKey string `json:"siteKey"`
+}
+
 type PlatformsListResponseItem struct {
 	Access          *string  `json:"access,omitempty"`
 	API             *string  `json:"api,omitempty"`
@@ -2651,6 +2650,17 @@ type PublicReportsGetResponseBranding struct {
 	LogoURL      *string `json:"logoUrl,omitempty"`
 	Name         string  `json:"name"`
 	PrimaryColor string  `json:"primaryColor"`
+}
+
+type BillingReferralResponse struct {
+	Clicks             int64   `json:"clicks"`
+	Code               *string `json:"code,omitempty"`
+	ConvertedCustomers int64   `json:"convertedCustomers"`
+	// False until Referalli is configured on this server.
+	Enabled   bool    `json:"enabled"`
+	Enrolled  bool    `json:"enrolled"`
+	Link      *string `json:"link,omitempty"`
+	Referrals int64   `json:"referrals"`
 }
 
 type ReportSchedulesListResponseItem struct {

@@ -2,7 +2,7 @@
 
 # Contributing
 
-Thanks for helping. This SDK wraps 174 operations in 40 services of the Advernue API (spec version 1.0.0).
+Thanks for helping. This SDK wraps 176 operations in 43 services of the Advernue API (spec version 1.0.0).
 
 ## How the code is laid out
 
@@ -140,10 +140,8 @@ Service names come from the operation tag and method names from the part of the 
 
 | Method | Path | Operation | Go call |
 |---|---|---|---|
-| POST | `/v1/auth/login` | `auth.login` | `client.Auth.Login` |
 | POST | `/v1/auth/logout` | `auth.logout` | `client.Auth.Logout` |
 | GET | `/v1/auth/me` | `auth.me` | `client.Auth.Me` |
-| POST | `/v1/auth/register` | `auth.register` | `client.Auth.Register` |
 | POST | `/v1/auth/switch-workspace` | `auth.switchWorkspace` | `client.Auth.SwitchWorkspace` |
 
 ### billing
@@ -153,6 +151,7 @@ Service names come from the operation tag and method names from the part of the 
 | GET | `/v1/billing` | `billing.overview` | `client.Billing.Overview` |
 | POST | `/v1/billing/checkout` | `billing.checkout` | `client.Billing.Checkout` |
 | POST | `/v1/billing/portal` | `billing.portal` | `client.Billing.Portal` |
+| GET | `/v1/referral` | `billing.referral` | `client.Billing.Referral` |
 
 ### branding
 
@@ -242,7 +241,6 @@ Service names come from the operation tag and method names from the part of the 
 
 | Method | Path | Operation | Go call |
 |---|---|---|---|
-| POST | `/v1/auth/invites/accept` | `invites.accept` | `client.Invites.Accept` |
 | GET | `/v1/auth/invites/{token}` | `invites.preview` | `client.Invites.Preview` |
 | GET | `/v1/invites` | `invites.list` | `client.Invites.List` |
 | POST | `/v1/invites` | `invites.create` | `client.Invites.Create` |
@@ -280,6 +278,25 @@ Service names come from the operation tag and method names from the part of the 
 | GET | `/v1/notification-routes` | `notifications.listRoutes` | `client.Notifications.ListRoutes` |
 | POST | `/v1/notification-routes` | `notifications.createRoute` | `client.Notifications.CreateRoute` |
 | DELETE | `/v1/notification-routes/{id}` | `notifications.deleteRoute` | `client.Notifications.DeleteRoute` |
+
+### operator
+
+| Method | Path | Operation | Go call |
+|---|---|---|---|
+| PUT | `/v1/fx-rates` | `operator.loadFxRates` | `client.Operator.LoadFxRates` |
+
+### ops
+
+| Method | Path | Operation | Go call |
+|---|---|---|---|
+| GET | `/health` | `ops.health` | `client.Ops.Health` |
+| GET | `/ready` | `ops.ready` | `client.Ops.Ready` |
+
+### platform
+
+| Method | Path | Operation | Go call |
+|---|---|---|---|
+| GET | `/v1/platform-config` | `platform.platformConfig` | `client.Platform.PlatformConfig` |
 
 ### platforms
 

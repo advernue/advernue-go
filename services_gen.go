@@ -44,6 +44,9 @@ type services struct {
 	Members         *MembersService
 	Notes           *NotesService
 	Notifications   *NotificationsService
+	Operator        *OperatorService
+	Ops             *OpsService
+	Platform        *PlatformService
 	Platforms       *PlatformsService
 	PublicReports   *PublicReportsService
 	ReportSchedules *ReportSchedulesService
@@ -87,6 +90,9 @@ func (c *Client) initServices() {
 	c.Members = &MembersService{c}
 	c.Notes = &NotesService{c}
 	c.Notifications = &NotificationsService{c}
+	c.Operator = &OperatorService{c}
+	c.Ops = &OpsService{c}
+	c.Platform = &PlatformService{c}
 	c.Platforms = &PlatformsService{c}
 	c.PublicReports = &PublicReportsService{c}
 	c.ReportSchedules = &ReportSchedulesService{c}
@@ -185,6 +191,15 @@ type NotesService struct{ c *Client }
 // NotificationsService groups the "Notifications" operations.
 type NotificationsService struct{ c *Client }
 
+// OperatorService groups the "Operator" operations.
+type OperatorService struct{ c *Client }
+
+// OpsService groups the "Ops" operations.
+type OpsService struct{ c *Client }
+
+// PlatformService groups the "Platform" operations.
+type PlatformService struct{ c *Client }
+
 // PlatformsService groups the "Platforms" operations.
 type PlatformsService struct{ c *Client }
 
@@ -220,6 +235,24 @@ type TrackingService struct{ c *Client }
 
 // WorkspacesService groups the "Workspaces" operations.
 type WorkspacesService struct{ c *Client }
+
+// Health: Liveness probe (GET /health).
+func (s *OpsService) Health(ctx context.Context, opts ...CallOption) (*OpsHealthResponse, error) {
+	out := new(OpsHealthResponse)
+	if err := s.c.do(ctx, op{method: "GET", path: expand("/health"), query: nil, idem: false, dry: false, noAuth: true}, nil, opts, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Ready: Readiness (database, queue); 503 when failing (GET /ready).
+func (s *OpsService) Ready(ctx context.Context, opts ...CallOption) (*OpsReadyResponse, error) {
+	out := new(OpsReadyResponse)
+	if err := s.c.do(ctx, op{method: "GET", path: expand("/ready"), query: nil, idem: false, dry: false, noAuth: true}, nil, opts, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 
 // ActionsListParams are the query parameters of actions.list.
 type ActionsListParams struct {
@@ -801,28 +834,10 @@ func (s *SecurityService) VerifyAudit(ctx context.Context, opts ...CallOption) (
 	return out, nil
 }
 
-// Accept: Accept an invite (session) (POST /v1/auth/invites/accept).
-func (s *InvitesService) Accept(ctx context.Context, body *InvitesAcceptRequest, opts ...CallOption) (*InvitesAcceptResponse, error) {
-	out := new(InvitesAcceptResponse)
-	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/auth/invites/accept"), query: nil, idem: false, dry: false, noAuth: true}, body, opts, out); err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // Preview: Preview an invite link (GET /v1/auth/invites/{token}).
 func (s *InvitesService) Preview(ctx context.Context, token string, opts ...CallOption) (*InvitesPreviewResponse, error) {
 	out := new(InvitesPreviewResponse)
 	if err := s.c.do(ctx, op{method: "GET", path: expand("/v1/auth/invites/{token}", "token", token), query: nil, idem: false, dry: false, noAuth: true}, nil, opts, out); err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Login: Sign in; sets the adv_session cookie (POST /v1/auth/login).
-func (s *AuthService) Login(ctx context.Context, body *AuthLoginRequest, opts ...CallOption) (*AuthLoginResponse, error) {
-	out := new(AuthLoginResponse)
-	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/auth/login"), query: nil, idem: false, dry: false, noAuth: true}, body, opts, out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -837,15 +852,6 @@ func (s *AuthService) Logout(ctx context.Context, opts ...CallOption) error {
 func (s *AuthService) Me(ctx context.Context, opts ...CallOption) (*AuthMeResponse, error) {
 	out := new(AuthMeResponse)
 	if err := s.c.do(ctx, op{method: "GET", path: expand("/v1/auth/me"), query: nil, idem: false, dry: false, noAuth: false}, nil, opts, out); err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Register: Create a user and workspace (gated) (POST /v1/auth/register).
-func (s *AuthService) Register(ctx context.Context, body *AuthRegisterRequest, opts ...CallOption) (*AuthRegisterResponse, error) {
-	out := new(AuthRegisterResponse)
-	if err := s.c.do(ctx, op{method: "POST", path: expand("/v1/auth/register"), query: nil, idem: false, dry: false, noAuth: true}, body, opts, out); err != nil {
 		return nil, err
 	}
 	return out, nil
@@ -1428,6 +1434,15 @@ func (s *FxService) List(ctx context.Context, params *FxListParams, opts ...Call
 	return out, nil
 }
 
+// LoadFxRates: Load FX rates (X-Operator-Token) (PUT /v1/fx-rates).
+func (s *OperatorService) LoadFxRates(ctx context.Context, body *OperatorLoadFxRatesRequest, opts ...CallOption) (*OperatorLoadFxRatesResponse, error) {
+	out := new(OperatorLoadFxRatesResponse)
+	if err := s.c.do(ctx, op{method: "PUT", path: expand("/v1/fx-rates"), query: nil, idem: false, dry: false, noAuth: true}, body, opts, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SlackInteraction: Slack interactivity callback (signed) (POST /v1/integrations/slack/{workspaceId}/{channelId}/interactions).
 func (s *ApprovalLinksService) SlackInteraction(ctx context.Context, workspaceID string, channelID string, opts ...CallOption) (*ApprovalLinksSlackInteractionResponse, error) {
 	out := new(ApprovalLinksSlackInteractionResponse)
@@ -1676,6 +1691,15 @@ func (s *NotificationsService) DeleteRoute(ctx context.Context, id string, opts 
 	return s.c.do(ctx, op{method: "DELETE", path: expand("/v1/notification-routes/{id}", "id", id), query: nil, idem: true, dry: false, noAuth: false}, nil, opts, nil)
 }
 
+// PlatformConfig: Public ids of the integrated platforms (GET /v1/platform-config).
+func (s *PlatformService) PlatformConfig(ctx context.Context, opts ...CallOption) (*PlatformPlatformConfigResponse, error) {
+	out := new(PlatformPlatformConfigResponse)
+	if err := s.c.do(ctx, op{method: "GET", path: expand("/v1/platform-config"), query: nil, idem: false, dry: false, noAuth: true}, nil, opts, out); err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PlatformsListParams are the query parameters of platforms.list.
 type PlatformsListParams struct {
 	Catalog *string
@@ -1718,6 +1742,15 @@ func (s *PublicReportsService) Html(ctx context.Context, token string, opts ...C
 // Pdf: Shared report (PDF) (GET /v1/public/reports/{token}/pdf).
 func (s *PublicReportsService) Pdf(ctx context.Context, token string, opts ...CallOption) ([]byte, error) {
 	return s.c.doRaw(ctx, op{method: "GET", path: expand("/v1/public/reports/{token}/pdf", "token", token), query: nil, idem: false, dry: false, noAuth: true}, nil, opts)
+}
+
+// Referral: Refer and earn: the signed-in admin partner link and stats from Referalli (admin) (GET /v1/referral).
+func (s *BillingService) Referral(ctx context.Context, opts ...CallOption) (*BillingReferralResponse, error) {
+	out := new(BillingReferralResponse)
+	if err := s.c.do(ctx, op{method: "GET", path: expand("/v1/referral"), query: nil, idem: false, dry: false, noAuth: false}, nil, opts, out); err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 // List: List report schedules (GET /v1/report-schedules).
